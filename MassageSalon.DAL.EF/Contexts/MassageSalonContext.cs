@@ -13,10 +13,6 @@ namespace MassageSalon.DAL.EF.Contexts
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
 
-        public MassageSalonContext()
-        {
-
-        }
         public MassageSalonContext(DbContextOptions<MassageSalonContext> options)
             : base(options)
         {
