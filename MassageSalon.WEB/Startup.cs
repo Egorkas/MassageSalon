@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MassageSalon.BLL.Entities;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.BLL.Services;
 using MassageSalon.DAL.Common.Entities;
@@ -36,9 +37,11 @@ namespace MassageSalon.WEB
             services.AddDbContext<MassageSalonContext>(options => options.UseSqlServer(DbConnector.GetConnectionOptions()));
             services.AddScoped<IGenericRepository<Masseur>, MasseurRepository>();
             services.AddScoped<IGenericRepository<Review>, ReviewRepository>();
+            services.AddScoped<IGenericRepository<Visitor>, VisitorRepository>();
 
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IVisitorService, VisitorService>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
