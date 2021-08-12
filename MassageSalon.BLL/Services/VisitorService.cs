@@ -19,6 +19,11 @@ namespace MassageSalon.BLL.Services
         public void CreateVisitor(Visitor visitor) =>
             _repository.Create(visitor);
 
+        public void DeleteVisitor(int id)
+        {
+            _repository.Delete(id);
+        }
+
         public IEnumerable<Visitor> GetAll() =>
             _repository.GetAll();
 

@@ -11,5 +11,6 @@ namespace MassageSalon.BLL.Interfaces
         Visitor GetVisitorById(int? id);
         IEnumerable<Visitor> GetAll();
         void UpdateVisitor(Visitor visitor);
+        void DeleteVisitor(int id);
     }
 }

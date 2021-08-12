@@ -21,6 +21,7 @@ namespace MassageSalon.DAL.EF.Repositories
         public void Create(Review item)
         {
             _context.Reviews.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -28,6 +29,7 @@ namespace MassageSalon.DAL.EF.Repositories
             Review review = _context.Reviews.Find(id);
             if (review != null)
                 _context.Reviews.Remove(review);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Review> Find(Func<Review, bool> predicate)
@@ -48,6 +50,7 @@ namespace MassageSalon.DAL.EF.Repositories
         public void Update(Review item)
         {
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

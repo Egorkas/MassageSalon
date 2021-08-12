@@ -21,6 +21,7 @@ namespace MassageSalon.DAL.EF.Repositories
         public void Create(Masseur item)
         {
             _context.Masseurs.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -28,6 +29,7 @@ namespace MassageSalon.DAL.EF.Repositories
             Masseur person = _context.Masseurs.Find(id);
             if (person != null)
                 _context.Masseurs.Remove(person);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Masseur> Find(Func<Masseur, bool> predicate)
@@ -48,6 +50,7 @@ namespace MassageSalon.DAL.EF.Repositories
         public void Update(Masseur item)
         {
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }
