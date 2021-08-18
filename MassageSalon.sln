@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.WEB", "MassageSalon.WEB\MassageSalon.WEB.csproj", "{474663F6-4B12-44EA-AF44-10D85C919F36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.WEB", "MassageSalon.WEB\MassageSalon.WEB.csproj", "{474663F6-4B12-44EA-AF44-10D85C919F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.BLL", "MassageSalon.BLL\MassageSalon.BLL.csproj", "{1C40A585-5FEA-4EE2-AD16-0B94933798B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.BLL", "MassageSalon.BLL\MassageSalon.BLL.csproj", "{1C40A585-5FEA-4EE2-AD16-0B94933798B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.DAL.Common", "MassageSalon.DAL.Common\MassageSalon.DAL.Common.csproj", "{8A9BE594-C3E7-4BB8-B0E7-331DFC3D4B36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.DAL.Common", "MassageSalon.DAL.Common\MassageSalon.DAL.Common.csproj", "{8A9BE594-C3E7-4BB8-B0E7-331DFC3D4B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.DAL.EF", "MassageSalon.DAL.EF\MassageSalon.DAL.EF.csproj", "{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.DAL.EF", "MassageSalon.DAL.EF\MassageSalon.DAL.EF.csproj", "{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.WebApi", "MassageSalon.WebApi\MassageSalon.WebApi.csproj", "{EB577DEB-8980-4586-8D27-8B881BA9C4E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

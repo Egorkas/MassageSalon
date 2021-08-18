@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassageSalon.BLL.Entities;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using System;
@@ -15,6 +16,7 @@ namespace MassageSalon.WEB.Mapper
             CreateMap<Employee, EmployeeModel>().ReverseMap(); 
             CreateMap<Masseur, MasseurModel>().ReverseMap(); 
             CreateMap<Review, ReviewModel>().ReverseMap(); 
+            CreateMap<Visitor, VisitorModel>().ReverseMap(); 
         }
     }
 }
