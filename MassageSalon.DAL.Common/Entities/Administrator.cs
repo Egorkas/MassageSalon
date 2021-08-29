@@ -4,8 +4,8 @@ using System.Text;
 
 namespace MassageSalon.DAL.Common.Entities
 {
-    public class Masseur : Employee
+    class Administrator : Employee
     {
-        public List<Review> Reviews { get; set; }
+        public string Email { get; set; }
     }
 }

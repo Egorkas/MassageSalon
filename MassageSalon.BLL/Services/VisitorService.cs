@@ -1,5 +1,5 @@
-﻿using MassageSalon.BLL.Entities;
-using MassageSalon.BLL.Interfaces;
+﻿using MassageSalon.BLL.Interfaces;
+using MassageSalon.DAL.Common.Entities;
 using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,10 +16,10 @@ namespace MassageSalon.BLL.Services
             _repository = repository;
         }
 
-        public void CreateVisitor(Visitor visitor) =>
+        public void Create(Visitor visitor) =>
             _repository.Create(visitor);
 
-        public void DeleteVisitor(int id)
+        public void Delete(int id)
         {
             _repository.Delete(id);
         }
@@ -27,10 +27,10 @@ namespace MassageSalon.BLL.Services
         public IEnumerable<Visitor> GetAll() =>
             _repository.GetAll();
 
-        public Visitor GetVisitorById(int? id) =>
+        public Visitor GetById(int id) =>
             _repository.Get(id);
 
-        public void UpdateVisitor(Visitor visitor) =>
+        public void Update(Visitor visitor) =>
             _repository.Update(visitor);
     }
 }

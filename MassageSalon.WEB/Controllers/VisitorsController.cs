@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using MassageSalon.BLL.Entities;
 using MassageSalon.BLL.Interfaces;
+using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,12 +29,9 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-                //return NotFound();
-                return View();
-            var visitor = _service.GetVisitorById(id);
+            var visitor = _service.GetById(id);
 
             if (visitor == null)
                 return NotFound();
@@ -46,7 +43,7 @@ namespace MassageSalon.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                _service.UpdateVisitor(_mapper.Map<Visitor>(visitor));
+                _service.Create(_mapper.Map<Visitor>(visitor));
                 return RedirectToAction("Index");
             }
 
@@ -57,7 +54,7 @@ namespace MassageSalon.WEB.Controllers
         public IActionResult Delete(int id)
         {
             
-            _service.DeleteVisitor(id);
+            _service.Delete(id);
             return RedirectToAction("Index");
         }
     }

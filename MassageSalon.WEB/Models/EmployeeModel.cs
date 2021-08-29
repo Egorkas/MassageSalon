@@ -9,9 +9,7 @@ namespace MassageSalon.WEB.Models
     public class EmployeeModel
     {
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Surname { get; set; }
         public string FatherName { get; set; }
     }

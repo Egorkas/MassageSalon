@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MassageSalon.BLL.Entities;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.BLL.Services;
 using MassageSalon.DAL.Common.Entities;
@@ -26,13 +25,15 @@ namespace MassageSalon.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MassageSalonContext>(options => options.UseSqlServer(DbConnector.GetConnectionOptions()));
-            services.AddScoped<IGenericRepository<Masseur>, MasseurRepository>();
-            services.AddScoped<IGenericRepository<Review>, ReviewRepository>();
-            services.AddScoped<IGenericRepository<Visitor>, VisitorRepository>();
+            services.AddScoped<IGenericRepository<Masseur>, GenericRepository<Masseur>>();
+            services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
+            services.AddScoped<IGenericRepository<Visitor>, GenericRepository<Visitor>>();
+            services.AddScoped<IGenericRepository<Record>, GenericRepository<Record>>();
 
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVisitorService, VisitorService>();
+            services.AddScoped<IRecordService, RecordService>();
 
             services.AddControllers();
 

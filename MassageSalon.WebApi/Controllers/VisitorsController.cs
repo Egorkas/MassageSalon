@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MassageSalon.BLL.Entities;
 using MassageSalon.BLL.Interfaces;
+using MassageSalon.DAL.Common.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +29,7 @@ namespace MassageSalon.WebApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Visitor> Get(int id)
         {
-            var visitor = _service.GetVisitorById(id);
+            var visitor = _service.GetById(id);
 
             if (visitor == null)
                 NotFound();
@@ -41,7 +41,7 @@ namespace MassageSalon.WebApi.Controllers
         {
             if (visitor == null)
                 BadRequest();
-            _service.CreateVisitor(visitor);
+            _service.Create(visitor);
             return Ok(visitor);
         }
 
@@ -52,24 +52,24 @@ namespace MassageSalon.WebApi.Controllers
             {
                 BadRequest();
             }
-            if (_service.GetVisitorById(visitor.Id) == null)
+            if (_service.GetById(visitor.Id) == null)
             {
                 NotFound();
             }
 
-            _service.UpdateVisitor(visitor);
+            _service.Update(visitor);
             return Ok(visitor);
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
-            var visitor = _service.GetVisitorById(id);
+            var visitor = _service.GetById(id);
             if (visitor == null)
             {
                 NotFound();
             }
-            _service.DeleteVisitor(id);
+            _service.Delete(id);
         }
     }
 }
