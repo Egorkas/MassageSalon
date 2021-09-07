@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation" Version="10.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
