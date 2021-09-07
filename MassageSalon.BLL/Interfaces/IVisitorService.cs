@@ -1,4 +1,4 @@
-﻿using MassageSalon.BLL.Entities;
+﻿using MassageSalon.DAL.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +7,10 @@ namespace MassageSalon.BLL.Interfaces
 {
     public interface IVisitorService
     {
-        void CreateVisitor(Visitor visitor);
-        Visitor GetVisitorById(int? id);
+        void Create(Visitor visitor);
+        Visitor GetById(int id);
         IEnumerable<Visitor> GetAll();
-        void UpdateVisitor(Visitor visitor);
-        void DeleteVisitor(int id);
+        void Update(Visitor visitor);
+        void Delete(int id);
     }
 }
