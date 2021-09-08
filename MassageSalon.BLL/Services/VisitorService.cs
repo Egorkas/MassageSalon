@@ -4,7 +4,6 @@ using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MassageSalon.BLL.Services
 {
@@ -35,6 +34,20 @@ namespace MassageSalon.BLL.Services
 
         public Visitor GetById(int id) =>
             _repository.Get(id);
+
+        public Visitor GetWithInclude()
+        {
+            throw new NotImplementedException();
+            
+            //return _repository.GetWithInclude(u => u.Role).FirstOrDefault();
+        }
+
+        public Visitor GetWithInclude(int id)
+        {
+            throw new NotImplementedException();
+            //var visitors = _repository.GetWithInclude(u => u.Role);
+            //return visitors.FirstOrDefault(user => user.Id == id);
+        }
 
         public void Update(Visitor visitor) =>
             _repository.Update(visitor);

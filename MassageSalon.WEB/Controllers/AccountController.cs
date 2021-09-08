@@ -5,6 +5,7 @@ using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Models.LoginOrRegister;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace MassageSalon.WEB.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IVisitorService _visitorService;
@@ -27,11 +29,13 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View(); 
         }
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -58,24 +62,28 @@ namespace MassageSalon.WEB.Controllers
             return View(model);
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
                 VisitorModel visitor = _mapper.Map<Visitor, VisitorModel>(_visitorService.Get(u => u.Login == model.Login && u.Password == model.Password));
+                RoleModel visitorRole = _mapper.Map<Role, RoleModel>(_roleService.Get(r => r.Id == visitor.RoleId));
                 if (visitor != null)
                 {
+                    visitor.Role = visitorRole;
                     await Authenticate(visitor); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Incorrect Login or password");
             }
             return View(model);
         }
@@ -92,6 +100,13 @@ namespace MassageSalon.WEB.Controllers
                 ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
     }
 }

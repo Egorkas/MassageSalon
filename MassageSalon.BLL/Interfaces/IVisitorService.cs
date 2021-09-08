@@ -13,5 +13,7 @@ namespace MassageSalon.BLL.Interfaces
         void Update(Visitor visitor);
         void Delete(int id);
         Visitor Get(Func<Visitor, bool> predicate);
+        Visitor GetWithInclude();
+        Visitor GetWithInclude(int id);
     }
 }

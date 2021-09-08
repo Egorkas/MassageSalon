@@ -39,11 +39,13 @@ namespace MassageSalon.WEB
             services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
             services.AddScoped<IGenericRepository<Visitor>, GenericRepository<Visitor>>();
             services.AddScoped<IGenericRepository<Record>, GenericRepository<Record>>();
+            services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
 
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVisitorService, VisitorService>();
             services.AddScoped<IRecordService, RecordService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -84,7 +86,8 @@ namespace MassageSalon.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}");
+                    //pattern: "{controller=Home}/{action=Index}");
+                    pattern: "{controller=Account}/{action=Login}");
             });
         }
     }

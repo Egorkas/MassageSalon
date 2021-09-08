@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.DAL.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.DAL.EF", "MassageSalon.DAL.EF\MassageSalon.DAL.EF.csproj", "{BD9D94AB-44E7-491E-BE2C-040CF370FBAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.WebApi", "MassageSalon.WebApi\MassageSalon.WebApi.csproj", "{EB577DEB-8980-4586-8D27-8B881BA9C4E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.WebApi", "MassageSalon.WebApi\MassageSalon.WebApi.csproj", "{EB577DEB-8980-4586-8D27-8B881BA9C4E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
