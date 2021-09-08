@@ -8,7 +8,7 @@ namespace MassageSalon.WEB.Models
 {
     public class EmployeeModel
     {
-        [Required]
+        
         public int Id { get; set; }
         [Display(Name = "Name")]
         public string Name { get; set; }

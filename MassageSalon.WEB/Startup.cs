@@ -11,6 +11,7 @@ using MassageSalon.DAL.EF.Contexts;
 using MassageSalon.DAL.EF.Repositories;
 using MassageSalon.WEB.Mapper;
 using MassageSalon.WEB.Utils;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,6 +45,13 @@ namespace MassageSalon.WEB
             services.AddScoped<IVisitorService, VisitorService>();
             services.AddScoped<IRecordService, RecordService>();
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MapperProfile());
@@ -69,7 +77,7 @@ namespace MassageSalon.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
