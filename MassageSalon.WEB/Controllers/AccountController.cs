@@ -32,6 +32,7 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
+            ViewBag.Title = "Register";
             return View(); 
         }
         [HttpPost]
@@ -65,6 +66,7 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
+            ViewBag.Title = "Login";
             return View();
         }
         [HttpPost]

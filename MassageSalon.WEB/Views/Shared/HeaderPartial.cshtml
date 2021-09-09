@@ -1,18 +1,18 @@
-﻿<!-- Header -->
+﻿ @*Header*@ 
 <section id="header" class="wrapper">
 
-    <!-- Logo -->
+     @*Logo*@ 
     <div id="logo">
-        <h1><a href="index.html">Escape Velocity</a></h1>
-        <p>A free responsive site template by HTML5 UP</p>
+        <h1><a href="index.html">MassageSalon</a></h1>
+        <p>The best salon you've ever seen!</p>
     </div>
 
-    <!-- Nav -->
+     @*Nav*@ 
     <nav id="nav">
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
             <li>
-                <a href="#">Dropdown</a>
+                <a href="#">Information</a>
                 <ul>
                     <li><a href="#">Lorem ipsum</a></li>
                     <li><a href="#">Magna veroeros</a></li>
@@ -31,9 +31,49 @@
                 </ul>
             </li>
             <li><a href="left-sidebar.html">Left Sidebar</a></li>
-            <li class="current"><a href="right-sidebar.html">Right Sidebar</a></li>
-            <li><a href="no-sidebar.html">No Sidebar</a></li>
+            <li class="current">
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Account" asp-action="Login" asp-route-id="">Login</a>
+                    }
+                }
+            </li>
+            <li>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                         <a asp-area="" asp-controller="Account" asp-action="Register" class="not-active">Register</a>
+                    }
+                    else
+                    {
+                        <a  asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    }
+                }
+            </li>
         </ul>
     </nav>
 
 </section>
+@*<div id="header-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <header id="header">
+                    <h1><a href="/" id="logo">Massage salon</a></h1>
+                    <nav id="nav">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Login" asp-route-id="">Наши услуги</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Register">Контакты</a>
+                    </nav>
+                </header>
+
+            </div>
+        </div>
+    </div>
+</div>*@

@@ -34,6 +34,8 @@ namespace MassageSalon.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Configuration.Bind("Project", new Config());
+
             services.AddDbContext<MassageSalonContext>(options => options.UseSqlServer(DbConnector.GetConnectionOptions()));
             services.AddScoped<IGenericRepository<Masseur>, GenericRepository<Masseur>>();
             services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
@@ -86,8 +88,8 @@ namespace MassageSalon.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    //pattern: "{controller=Home}/{action=Index}");
-                    pattern: "{controller=Account}/{action=Login}");
+                    pattern: "{controller=Home}/{action=Index}");
+                    //pattern: "{controller=Account}/{action=Login}");
             });
         }
     }
