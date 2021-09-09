@@ -8,6 +8,8 @@ namespace MassageSalon.WEB.Models.LoginOrRegister
 {
     public class RegisterModel
     {
+        [Required(ErrorMessage = "Enter the Name(Email)")]
+        public string Name { get; set; }
         [Required(ErrorMessage ="Enter the Login(Email)")]
         public string Login { get; set; }
         [Required(ErrorMessage =" Enter the password")]

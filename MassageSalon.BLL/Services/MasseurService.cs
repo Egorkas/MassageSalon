@@ -20,6 +20,11 @@ namespace MassageSalon.BLL.Services
         public void Create(Masseur masseur) =>
             _repository.Create(masseur);
 
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+
         public IEnumerable<Masseur> GetAll() =>
             _repository.GetAll();
 

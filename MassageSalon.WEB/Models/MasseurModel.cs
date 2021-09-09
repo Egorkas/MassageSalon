@@ -7,5 +7,7 @@ namespace MassageSalon.WEB.Models
 {
     public class MasseurModel : EmployeeModel
     {
+        public string TitleImagePath { get; set; }
+        public string Description { get; set; }
     }
 }
