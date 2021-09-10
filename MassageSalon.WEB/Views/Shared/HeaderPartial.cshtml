@@ -10,12 +10,23 @@
      @*Nav*@ 
     <nav id="nav">
         <ul>
-            <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Main</a></li>
             <li>
                 <a href="#">Information</a>
                 <ul>
-                    <li><a href="#">Lorem ipsum</a></li>
-                    <li><a href="#">Magna veroeros</a></li>
+                    <li><a asp-area="" asp-controller="Masseurs" asp-action="Index">Masseurs</a></li>
+                    <li>
+                        @{
+                            if (User.IsInRole("admin"))
+                            {
+                                <a asp-area="" asp-controller="Visitors" asp-action="Index">Visitors</a>
+                            }
+                            else if (User.IsInRole("user"))
+                            {
+                                <a asp-area="" asp-controller="Visitors" asp-action="Index" asp-route-id="1">Visitors</a>
+                            }
+                        }
+                    </li>
                     <li><a href="#">Etiam nisl</a></li>
                     <li>
                         <a href="#">Sed consequat</a>
@@ -30,7 +41,18 @@
                     <li><a href="#">Nisl tempus</a></li>
                 </ul>
             </li>
-            <li><a href="left-sidebar.html">Left Sidebar</a></li>
+            <li>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-area="" asp-controller="Record" asp-action="Index">Record</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Record" asp-action="Index"  data-tooltip="Login to record">Record</a>
+                    }
+                }
+            </li>
             <li class="current">
                 @{
                     if (User.Identity.IsAuthenticated)

@@ -7,10 +7,12 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MassageSalon.WEB.Controllers
 {
+    [Authorize]
     public class RecordController : Controller
     {
         private readonly IMasseurService _masseurService;
@@ -23,12 +25,14 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var masseurs = _masseurService.GetAll();
             return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Index(int masseurId, DateTime date)
         {
             var barbers = _masseurService.GetAll();

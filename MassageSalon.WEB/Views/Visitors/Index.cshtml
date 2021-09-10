@@ -23,7 +23,7 @@
                     <th>Name</th>
                     <th>Surname</th>
                     <th>FatherName</th>
-                    <th>Masseur</th>
+                    <th>Login (Email)</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -34,6 +34,7 @@
                         <td>@r.Name</td>
                         <td>@r.Surname</td>
                         <td>@r.FatherName</td>
+                        <td>@r.Login</td>
                         <td>
                             <a id="createEditVisitor" asp-action="Edit" asp-route-id="@r.Id"
                                class="btn btn-info">

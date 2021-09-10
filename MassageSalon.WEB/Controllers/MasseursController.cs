@@ -35,6 +35,7 @@ namespace MassageSalon.WEB.Controllers
             return View(_mapper.Map<IEnumerable<MasseurModel>>(masseurs));
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var visitor = _masseurService.GetById(id);
@@ -45,6 +46,7 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(MasseurModel masseur, IFormFile titleImageFile)
         {
             if (ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
 
