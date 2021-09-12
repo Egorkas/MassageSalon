@@ -23,7 +23,11 @@
                             }
                             else if (User.IsInRole("user"))
                             {
-                                <a asp-area="" asp-controller="Visitors" asp-action="Index" asp-route-id="1">Visitors</a>
+                                <a asp-area="" asp-controller="Visitors" asp-action="Index">Your Profile</a>
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Visitors" asp-action="Index" data-tooltip="Login to record">Visitor</a>
                             }
                         }
                     </li>
@@ -45,11 +49,19 @@
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
+                        if (User.IsInRole("admin"))
+                        {
+                            <a asp-area="" asp-controller="Record" asp-action="Index">Records</a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Record" asp-action="CreateRecord">Record</a>
+                        }
                         <a asp-area="" asp-controller="Record" asp-action="Index">Record</a>
                     }
                     else
                     {
-                        <a asp-area="" asp-controller="Record" asp-action="Index"  data-tooltip="Login to record">Record</a>
+                        <a asp-area="" asp-controller="Record" asp-action="Index" data-tooltip="Login to record">Record</a>
                     }
                 }
             </li>

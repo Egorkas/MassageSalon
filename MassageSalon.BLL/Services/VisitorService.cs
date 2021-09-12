@@ -37,16 +37,14 @@ namespace MassageSalon.BLL.Services
 
         public Visitor GetWithInclude()
         {
-            throw new NotImplementedException();
-            
-            //return _repository.GetWithInclude(u => u.Role).FirstOrDefault();
+            return _repository.GetWithInclude(u => u.Role).FirstOrDefault();
         }
 
         public Visitor GetWithInclude(int id)
         {
-            throw new NotImplementedException();
-            //var visitors = _repository.GetWithInclude(u => u.Role);
-            //return visitors.FirstOrDefault(user => user.Id == id);
+            //throw new NotImplementedException();
+            var visitors = _repository.GetWithInclude(u => u.Role);
+            return visitors.FirstOrDefault(user => user.Id == id);
         }
 
         public void Update(Visitor visitor) =>

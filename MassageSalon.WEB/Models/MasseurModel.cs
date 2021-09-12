@@ -9,5 +9,7 @@ namespace MassageSalon.WEB.Models
     {
         public string TitleImagePath { get; set; }
         public string Description { get; set; }
+
+        public IEnumerable<RecordModel> RecordModels { get; set; }
     }
 }

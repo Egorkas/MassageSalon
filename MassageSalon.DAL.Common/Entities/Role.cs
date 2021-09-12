@@ -8,10 +8,10 @@ namespace MassageSalon.DAL.Common.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; } = "user";
-        //public List<Visitor> Users { get; set; }
-        //public Role()
-        //{
-        //    Users = new List<Visitor>();
-        //}
+        public List<Visitor> Users { get; set; }
+        public Role()
+        {
+            Users = new List<Visitor>();
+        }
     }
 }

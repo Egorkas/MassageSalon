@@ -49,6 +49,8 @@ namespace MassageSalon.WEB
             services.AddScoped<IRecordService, RecordService>();
             services.AddScoped<IRoleService, RoleService>();
 
+            services.AddHttpContextAccessor();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

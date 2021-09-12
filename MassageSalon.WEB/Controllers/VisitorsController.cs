@@ -3,6 +3,7 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,28 +18,32 @@ namespace MassageSalon.WEB.Controllers
     {
         private readonly IVisitorService _service;
         private readonly IMapper _mapper;
-
-        public VisitorsController(IVisitorService service, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public VisitorsController(IVisitorService service, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _service = service;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
-        [Authorize(Roles ="admin")]
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            var visitor = _service.GetAll();
-            return View(_mapper.Map<IEnumerable<VisitorModel>>(visitor));
-        }
-
-        [Authorize(Roles = "user")]
-        public IActionResult Index(int id)
-        {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var visitor = _service.Get(x => x.Name.Equals(currentUserID));
-            return View(_mapper.Map<IEnumerable<VisitorModel>>(visitor));
+            if (User.IsInRole("admin"))
+            {
+                var visitor = _service.GetAll();
+                return View(_mapper.Map<IEnumerable<VisitorModel>>(visitor));
+            }
+            else
+            {
+                int userId = 0;
+                var login = _httpContextAccessor.HttpContext.User.Identity.Name;
+                var visitor = _service.Get(x => x.Login == login);
+                var list = new List<Visitor>();
+                list.Add(visitor);
+                return View(_mapper.Map<IEnumerable<VisitorModel>>(list));
+            }
         }
 
         [HttpGet]
@@ -53,12 +58,19 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public IActionResult Edit(VisitorModel visitor)
         {
             if (ModelState.IsValid)
             {
-                _service.Create(_mapper.Map<Visitor>(visitor));
+                var visitorId = _service.Get(v => v.Login == visitor.Login).Id;
+                if (visitorId == 0)
+                {
+                    _service.Update(_mapper.Map<Visitor>(visitor));
+                    return RedirectToAction("Index");
+                }
+                visitor.Id = visitorId;
+                _service.Update(_mapper.Map<Visitor>(visitor));
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +81,10 @@ namespace MassageSalon.WEB.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
-            
+            if (_service.GetById(id).RoleId == 1)
+            {
+                return RedirectToAction("Index");
+            }
             _service.Delete(id);
             return RedirectToAction("Index");
         }

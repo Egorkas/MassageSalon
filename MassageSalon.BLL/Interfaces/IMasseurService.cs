@@ -12,5 +12,6 @@ namespace MassageSalon.BLL.Interfaces
         IEnumerable<Masseur> GetAll();
         void Update(Masseur Masseur);
         void Delete(int id);
+        Masseur Get(Func<Masseur, bool> predicate);
     }
 }

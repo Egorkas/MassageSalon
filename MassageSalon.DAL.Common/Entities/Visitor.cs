@@ -13,5 +13,7 @@ namespace MassageSalon.DAL.Common.Entities
 
         public int? RoleId { get; set; }
         public Role Role { get; set; }
+
+        IEnumerable<Record> Records { get; set; }
     }
 }

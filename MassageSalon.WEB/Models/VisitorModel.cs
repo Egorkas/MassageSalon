@@ -18,5 +18,7 @@ namespace MassageSalon.WEB.Models
 
         public int? RoleId { get; set; } = 2;
         public RoleModel Role { get; set; }
+
+        public IEnumerable<RecordModel> RecordModels { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using MassageSalon.DAL.Common.Entities;
 using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MassageSalon.BLL.Services
@@ -23,6 +24,11 @@ namespace MassageSalon.BLL.Services
         public void Delete(int id)
         {
             _repository.Delete(id);
+        }
+
+        public Masseur Get(Func<Masseur, bool> predicate)
+        {
+            return _repository.Find(predicate).FirstOrDefault();
         }
 
         public IEnumerable<Masseur> GetAll() =>

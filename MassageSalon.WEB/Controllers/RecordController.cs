@@ -9,6 +9,7 @@ using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MassageSalon.WEB.Controllers
 {
@@ -26,14 +27,27 @@ namespace MassageSalon.WEB.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    var masseurs = _masseurService.GetAll();
+        //    return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
+        //}
+        public ActionResult Index()
+        {
+            var records = _recordService.GetAll();
+            return View(records);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CreateRecord()
         {
             var masseurs = _masseurService.GetAll();
             return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Index(int masseurId, DateTime date)
+        public IActionResult CreateRecord(int masseurId, DateTime date)
         {
             var barbers = _masseurService.GetAll();
             var result = _recordService.IsExists(masseurId, date);
@@ -63,5 +77,44 @@ namespace MassageSalon.WEB.Controllers
             _recordService.Create(record);
             return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
         }
+
+        //public ActionResult Create(int id)
+        //{
+        //    var viewModel = new RecordModel
+        //    {
+        //        VisitorId = id,
+        //        MasseurId = _masseurService.GetAll().FirstOrDefault().Id
+
+        //    };
+        //    return View(viewModel);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(RecordModel viewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        viewModel.Masseur = _masseurService.GetAll().First();
+        //        return View(viewModel);
+
+        //    }
+        //    var appointment = new Record()
+        //    {
+        //        TimeRecord = viewModel.TimeRecord,
+        //        Detail = viewModel.Detail,
+        //        Status = false,
+        //        VisitorId = viewModel.VisitorId,
+        //        Masseur = _masseurService.Get(x => x.Name == viewModel.Masseur.Name)
+
+        //    };
+        //    //Check if the slot is available
+        //    //if (_unitOfWork.Appointments.ValidateAppointment(appointment.StartDateTime, viewModel.Doctor))
+        //    //    return View("InvalidAppointment");
+
+        //    //_unitOfWork.Appointments.Add(appointment);
+        //    //_unitOfWork.Complete();
+        //    return RedirectToAction("Index", "Record");
+        //}
     }
 }
