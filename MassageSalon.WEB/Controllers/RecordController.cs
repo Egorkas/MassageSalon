@@ -57,8 +57,15 @@ namespace MassageSalon.WEB.Controllers
                 return View();
             }
 
+            var existRecord = _recordService.IsExists(recordModel.MasseurId, recordModel.TimeRecord);
+            if (existRecord != null)
+            {
+                ViewBag.Message = "Sorry, this record exist";
+                return View();
+            }
             var login = _httpContextAccessor.HttpContext.User.Identity.Name;
             var visitor = _visitorService.Get(x => x.Login == login);
+            
             var record = new RecordModel()
             {
                 TimeRecord = recordModel.TimeRecord,

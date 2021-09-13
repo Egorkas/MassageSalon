@@ -48,6 +48,9 @@ namespace MassageSalon.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c => 
