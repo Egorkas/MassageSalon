@@ -8,6 +8,7 @@ using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Validators;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,24 +19,23 @@ namespace MassageSalon.WEB.Controllers
     {
         private readonly IMasseurService _masseurService;
         private readonly IRecordService _recordService;
+        private readonly IVisitorService _visitorService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper)
+        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor )
         {
             _masseurService = masseurService;
             _recordService = recordService;
+            _visitorService = visitorService;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet]
         [AllowAnonymous]
-        //public IActionResult Index()
-        //{
-        //    var masseurs = _masseurService.GetAll();
-        //    return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
-        //}
         public ActionResult Index()
         {
             var records = _recordService.GetAll();
-            return View(records);
+            return View(_mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(records));
         }
 
         [HttpGet]
@@ -43,39 +43,32 @@ namespace MassageSalon.WEB.Controllers
         public IActionResult CreateRecord()
         {
             var masseurs = _masseurService.GetAll();
-            return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
+            ViewBag.Masseurs = new SelectList(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs), "Id", "Name");
+            return View();
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateRecord(int masseurId, DateTime date)
+        public IActionResult CreateRecord(RecordModel recordModel)
         {
-            var barbers = _masseurService.GetAll();
-            var result = _recordService.IsExists(masseurId, date);
-            if (result != null)
+
+            if (!ModelState.IsValid)
             {
                 ViewBag.Message = "Sorry, this record exist";
-                return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
+                return View();
             }
 
-            var masseur = _masseurService.GetById(masseurId);
-
-            var record = new Record()
+            var login = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var visitor = _visitorService.Get(x => x.Login == login);
+            var record = new RecordModel()
             {
-                MasseurId = masseurId,
-                Masseur = masseur,
-                TimeRecord = date,
+                TimeRecord = recordModel.TimeRecord,
+                MasseurId = recordModel.MasseurId,
+                VisitorId = visitor.Id,
+                Detail = recordModel.Detail
             };
 
-            var validator = new RecordIsBusyValidator();
-            var validationResult = validator.Validate(record);
-            if (!validationResult.IsValid)
-            {
-                ViewBag.Message = validationResult.Errors.First().ToString();
-                return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
-            }
-
-            _recordService.Create(record);
-            return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
+            _recordService.Create(_mapper.Map<Record>(record));
+            return RedirectToAction("Index");
         }
 
         //public ActionResult Create(int id)
@@ -89,32 +82,5 @@ namespace MassageSalon.WEB.Controllers
         //    return View(viewModel);
         //}
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(RecordModel viewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        viewModel.Masseur = _masseurService.GetAll().First();
-        //        return View(viewModel);
-
-        //    }
-        //    var appointment = new Record()
-        //    {
-        //        TimeRecord = viewModel.TimeRecord,
-        //        Detail = viewModel.Detail,
-        //        Status = false,
-        //        VisitorId = viewModel.VisitorId,
-        //        Masseur = _masseurService.Get(x => x.Name == viewModel.Masseur.Name)
-
-        //    };
-        //    //Check if the slot is available
-        //    //if (_unitOfWork.Appointments.ValidateAppointment(appointment.StartDateTime, viewModel.Doctor))
-        //    //    return View("InvalidAppointment");
-
-        //    //_unitOfWork.Appointments.Add(appointment);
-        //    //_unitOfWork.Complete();
-        //    return RedirectToAction("Index", "Record");
-        //}
     }
 }

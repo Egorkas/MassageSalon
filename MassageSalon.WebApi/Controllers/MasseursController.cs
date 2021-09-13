@@ -11,61 +11,61 @@ namespace MassageSalon.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VisitorsController : ControllerBase
+    public class MasseursController : ControllerBase
     {
-        private readonly IVisitorService _service;
+        private readonly IMasseurService _service;
 
-        public VisitorsController(IVisitorService service)
+        public MasseursController(IMasseurService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Visitor>> GetAll()
+        public ActionResult<IEnumerable<Masseur>> GetAll()
         {
             return Ok(_service.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Visitor> Get(int id)
+        public ActionResult<Masseur> Get(int id)
         {
-            var visitor = _service.GetById(id);
+            var Masseur = _service.GetById(id);
 
-            if (visitor == null)
+            if (Masseur == null)
                 NotFound();
-            return Ok(visitor);
+            return Ok(Masseur);
         }
 
         [HttpPost]
-        public ActionResult<Visitor> Add(Visitor visitor)
+        public ActionResult<Masseur> Add(Masseur Masseur)
         {
-            if (visitor == null)
+            if (Masseur == null)
                 BadRequest();
-            _service.Create(visitor);
-            return Ok(visitor);
+            _service.Create(Masseur);
+            return Ok(Masseur);
         }
 
         [HttpPut]
-        public ActionResult<Visitor> Update(Visitor visitor)
+        public ActionResult<Masseur> Update(Masseur Masseur)
         {
-            if (visitor == null)
+            if (Masseur == null)
             {
                 BadRequest();
             }
-            if (_service.GetById(visitor.Id) == null)
+            if (_service.GetById(Masseur.Id) == null)
             {
                 NotFound();
             }
 
-            _service.Update(visitor);
-            return Ok(visitor);
+            _service.Update(Masseur);
+            return Ok(Masseur);
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
-            var visitor = _service.GetById(id);
-            if (visitor == null)
+            var Masseur = _service.GetById(id);
+            if (Masseur == null)
             {
                 NotFound();
             }

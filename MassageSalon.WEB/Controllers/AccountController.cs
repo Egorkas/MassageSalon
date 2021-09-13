@@ -81,9 +81,9 @@ namespace MassageSalon.WEB.Controllers
             if (ModelState.IsValid)
             {
                 VisitorModel visitor = _mapper.Map<Visitor, VisitorModel>(_visitorService.Get(u => u.Login == model.Login && u.Password == model.Password));
-                RoleModel visitorRole = _mapper.Map<Role, RoleModel>(_roleService.Get(r => r.Id == visitor.RoleId));
                 if (visitor != null)
                 {
+                    RoleModel visitorRole = _mapper.Map<Role, RoleModel>(_roleService.Get(r => r.Id == visitor.RoleId));
                     visitor.Role = visitorRole;
                     await Authenticate(visitor); // аутентификация
 
