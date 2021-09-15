@@ -5,6 +5,7 @@ using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,13 @@ namespace MassageSalon.WEB.Controllers
         private readonly IVisitorService _service;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public VisitorsController(IVisitorService service, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        private readonly ILogger<VisitorsController> _logger;
+        public VisitorsController(IVisitorService service, IMapper mapper, IHttpContextAccessor httpContextAccessor, ILogger<VisitorsController> logger)
         {
             _service = service;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -73,7 +76,7 @@ namespace MassageSalon.WEB.Controllers
                 _service.Update(_mapper.Map<Visitor>(visitor));
                 return RedirectToAction("Index");
             }
-
+            _logger.LogError("Model isn't valid");
             return View(visitor);
         }
 

@@ -1,0 +1,12 @@
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\MassageSalon\MassageSalon.WEB
+Model isn't valid
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: D:\MassageSalon\MassageSalon.WEB
+Model isn't valid
+An unhandled exception has occurred while executing the request.
+Model isn't valid
+An unhandled exception has occurred while executing the request.

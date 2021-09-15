@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace MassageSalon.WEB.Controllers
 {
@@ -22,13 +23,15 @@ namespace MassageSalon.WEB.Controllers
         private readonly IVisitorService _visitorService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor )
+        private readonly ILogger<RecordController> _logger;
+        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor, ILogger<RecordController> logger )
         {
             _masseurService = masseurService;
             _recordService = recordService;
             _visitorService = visitorService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -53,13 +56,15 @@ namespace MassageSalon.WEB.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Sorry, this record exist";
+                _logger.LogInformation("Model isn't valid");
+                //ViewBag.Message = "Sorry, this record exist";
                 return View();
             }
 
             var existRecord = _recordService.IsExists(recordModel.MasseurId, recordModel.TimeRecord);
             if (existRecord != null)
             {
+                _logger.LogInformation("Model isn't valid");
                 ViewBag.Message = "Sorry, this record exist";
                 return View();
             }
@@ -77,17 +82,5 @@ namespace MassageSalon.WEB.Controllers
             _recordService.Create(_mapper.Map<Record>(record));
             return RedirectToAction("Index");
         }
-
-        //public ActionResult Create(int id)
-        //{
-        //    var viewModel = new RecordModel
-        //    {
-        //        VisitorId = id,
-        //        MasseurId = _masseurService.GetAll().FirstOrDefault().Id
-
-        //    };
-        //    return View(viewModel);
-        //}
-
     }
 }
