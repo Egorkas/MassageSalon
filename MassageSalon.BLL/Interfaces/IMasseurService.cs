@@ -7,9 +7,11 @@ namespace MassageSalon.BLL.Interfaces
 {
     public interface IMasseurService
     {
-        void CreateMasseur(Masseur Masseur);
-        Masseur GetMasseurById(int? id);
+        void Create(Masseur Masseur);
+        Masseur GetById(int id);
         IEnumerable<Masseur> GetAll();
-        void UpdateMasseur(Masseur Masseur);
+        void Update(Masseur Masseur);
+        void Delete(int id);
+        Masseur Get(Func<Masseur, bool> predicate);
     }
 }

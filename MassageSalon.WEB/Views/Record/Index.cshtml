@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RecordModel>
+@{
+    ViewData["Title"] = "Records of visitors";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <title>Responses</title>
+</head>
+<body>
+    <div class="panel-body">
+        <h2>Here is a list of visitors' records!</h2>
+        <table class="table table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Masseur</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( var r in Model)
+                {
+                    <tr>
+                        <td>@r.VisitorId</td>
+                        <td>@r.MasseurId</td>
+                        <td>@r.TimeRecord</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -13,8 +13,12 @@ namespace MassageSalon.WEB.Mapper
         public MapperProfile()
         {
             CreateMap<Employee, EmployeeModel>().ReverseMap(); 
-            CreateMap<Masseur, MasseurModel>().ReverseMap(); 
+            CreateMap<Masseur, MasseurModel>().ReverseMap();
+            CreateMap<Record, RecordModel>().ReverseMap();
             CreateMap<Review, ReviewModel>().ReverseMap(); 
+            CreateMap<Visitor, VisitorModel>().ReverseMap(); 
+            CreateMap<Role, RoleModel>().ReverseMap(); 
+            CreateMap<Log, LogModel>().ReverseMap(); 
         }
     }
 }

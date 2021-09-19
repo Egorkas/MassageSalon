@@ -1,0 +1,36 @@
+﻿@model RecordModel
+@{
+    ViewData["Title"] = "Records";
+}
+
+@using (Html.BeginForm("CreateRecord", "Record", FormMethod.Post))
+{
+
+<h2>Records</h2>
+
+<form asp-action="Record" asp-controller="CreateRecord" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <div>
+            <label asp-for="MasseurId">Select the Masseur</label><br />
+            @Html.DropDownListFor(model => model.MasseurId, (IEnumerable<SelectListItem>)ViewBag.Masseurs, new { @class = "form-control" })
+            <span asp-validation-for="MasseurId" />
+        </div>
+        <div>
+            <label asp-for="TimeRecord">Select time</label><br />
+            <input type="text" asp-for="TimeRecord" type="datetime-local" />
+            <span asp-validation-for="TimeRecord" />
+        </div>
+        <div>
+            <label asp-for="Detail">Detail</label><br />
+            <input type="text" asp-for="Detail" />
+            <span asp-validation-for="Detail" />
+        </div>
+        <div>
+            <input type="submit" value="Record" />
+        </div>
+    </div>
+</form>
+
+}
+

@@ -17,16 +17,16 @@ namespace MassageSalon.BLL.Services
             _repository = repository;
         }
 
-        public void CreateReview(Review review) =>
+        public void Create(Review review) =>
             _repository.Create(review);
 
         public IEnumerable<Review> GetAll() =>
             _repository.GetAll();
 
-        public Review GetReviewById(int? id) =>
+        public Review GetById(int id) =>
             _repository.Get(id);
 
-        public void UpdateReview(Review review) =>
+        public void Update(Review review) =>
             _repository.Update(review);
     }
 }

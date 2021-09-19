@@ -7,9 +7,9 @@ namespace MassageSalon.BLL.Interfaces
 {
     public interface IReviewService
     {
-        void CreateReview(Review Review);
-        Review GetReviewById(int? id);
+        void Create(Review Review);
+        Review GetById(int id);
         IEnumerable<Review> GetAll();
-        void UpdateReview(Review Review);
+        void Update(Review Review);
     }
 }

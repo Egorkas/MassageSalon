@@ -19,7 +19,6 @@ namespace MassageSalon.WEB.Utils
 
             var configuration = builder.Build();
 
-            //return configuration.GetConnectionString("DefaultConnection").ToString();
             return configuration.GetSection("ConnectionsString:DefaultConnection").Value;
         }
     }
