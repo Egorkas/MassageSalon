@@ -1,0 +1,16 @@
+<table class="table table-striped">
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let masseurInfo of MasseurList"> 
+        <td>{{ masseurInfo.name}}</td>
+        <td>{{ masseurInfo.surname }}</td>
+        <td>{{ masseurInfo.description}}</td>   
+    </tr>
+</tbody>
+</table>
