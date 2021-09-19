@@ -11,10 +11,13 @@ namespace MassageSalon.WEB.Models
     {
         public int Id { get; set; }
         [Required]
-        public int MasseurId { get; set; }
-        public Masseur Masseur { get; set; }
-        [Required]
         public DateTime TimeRecord { get; set; }
-    }
+        public string Detail { get; set; }
+        public bool Status { get; set; }
+        public int VisitorId { get; set; }
+        public VisitorModel Visitor { get; set; }
+        public int MasseurId { get; set; }
+        public MasseurModel Masseur { get; set; }
+     }
 }
 

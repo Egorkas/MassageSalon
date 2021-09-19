@@ -12,5 +12,6 @@ namespace MassageSalon.BLL.Interfaces
         void Create(Record record);
         void Update(Record record);
         Record IsExists(int masseurId, DateTime date);
+        Record Get(Func<Record, bool> predicate);
     }
 }

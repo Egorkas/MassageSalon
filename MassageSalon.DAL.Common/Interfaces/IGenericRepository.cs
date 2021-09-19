@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace MassageSalon.DAL.Common.Interfaces
@@ -12,5 +13,6 @@ namespace MassageSalon.DAL.Common.Interfaces
         void Create(TEntity item);
         void Update(TEntity item);
         void Delete(int id);
+        IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
     }
 }

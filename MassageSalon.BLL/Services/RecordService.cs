@@ -20,12 +20,15 @@ namespace MassageSalon.BLL.Services
             _repository.Create(record);
         }
 
+        public Record Get(Func<Record, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
+
         public IEnumerable<Record> GetAll() => _repository.GetAll();
 
         public Record GetById(int id) => _repository.Get(id);
 
-        public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && x.TimeRecord == date).FirstOrDefault();
+        public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && (x.TimeRecord.Ticks >= date.Ticks && x.TimeRecord.Ticks <= date.AddHours(1).Ticks)).FirstOrDefault();
 
         public void Update(Record record) => _repository.Update(record);
+
     }
 }

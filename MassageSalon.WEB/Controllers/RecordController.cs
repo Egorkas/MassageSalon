@@ -7,57 +7,80 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Validators;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace MassageSalon.WEB.Controllers
 {
+    [Authorize]
     public class RecordController : Controller
     {
         private readonly IMasseurService _masseurService;
         private readonly IRecordService _recordService;
+        private readonly IVisitorService _visitorService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper)
+        private readonly ILogger<RecordController> _logger;
+        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor, ILogger<RecordController> logger )
         {
             _masseurService = masseurService;
             _recordService = recordService;
+            _visitorService = visitorService;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
         [HttpGet]
-        public IActionResult Index()
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            var records = _recordService.GetAll();
+            return View(_mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(records));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CreateRecord()
         {
             var masseurs = _masseurService.GetAll();
-            return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs));
+            ViewBag.Masseurs = new SelectList(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs), "Id", "Name");
+            return View();
         }
         [HttpPost]
-        public IActionResult Index(int masseurId, DateTime date)
+        [AllowAnonymous]
+        public IActionResult CreateRecord(RecordModel recordModel)
         {
-            var barbers = _masseurService.GetAll();
-            var result = _recordService.IsExists(masseurId, date);
-            if (result != null)
+
+            if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Sorry, this record exist";
-                return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
+                _logger.LogInformation("Model isn't valid");
+                //ViewBag.Message = "Sorry, this record exist";
+                return View();
             }
 
-            var masseur = _masseurService.GetById(masseurId);
-
-            var record = new Record()
+            var existRecord = _recordService.IsExists(recordModel.MasseurId, recordModel.TimeRecord);
+            if (existRecord != null)
             {
-                MasseurId = masseurId,
-                Masseur = masseur,
-                TimeRecord = date,
+                _logger.LogInformation("Model isn't valid");
+                ViewBag.Message = "Sorry, this record exist";
+                return View();
+            }
+            var login = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var visitor = _visitorService.Get(x => x.Login == login);
+            
+            var record = new RecordModel()
+            {
+                TimeRecord = recordModel.TimeRecord,
+                MasseurId = recordModel.MasseurId,
+                VisitorId = visitor.Id,
+                Detail = recordModel.Detail
             };
 
-            var validator = new RecordIsBusyValidator();
-            var validationResult = validator.Validate(record);
-            if (!validationResult.IsValid)
-            {
-                ViewBag.Message = validationResult.Errors.First().ToString();
-                return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
-            }
-
-            _recordService.Create(record);
-            return View(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(barbers));
+            _recordService.Create(_mapper.Map<Record>(record));
+            return RedirectToAction("Index");
         }
     }
 }

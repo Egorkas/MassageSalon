@@ -2,7 +2,7 @@
 
 @using (Html.BeginForm("Edit", "Visitors", FormMethod.Post))
 {
-    
+
 
     <div>
         @Html.ValidationSummary()
@@ -22,13 +22,18 @@
         <input class="form-control" type="text" asp-for="FatherName" />
     </div>
     <div class="form-group">
-        <label asp-for="Masseur"></label>
-        <input class="form-control" type="text" asp-for="Masseur" />
+        <label asp-for="PhoneNumber"></label>
+        <input class="form-control" type="text" asp-for="PhoneNumber" />
     </div>
     <div class="form-group">
-        <label asp-for="MasseurId"></label>
-        <input class="form-control" type="text" asp-for="MasseurId" />
+        <label asp-for="Login"></label>
+        <input class="form-control" type="text" asp-for="Login" />
     </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input class="form-control" type="text" asp-for="Password" />
+    </div>
+
     <div class="form-group">
         <button type="submit" class="btn btn-success">Save</button>
     </div>

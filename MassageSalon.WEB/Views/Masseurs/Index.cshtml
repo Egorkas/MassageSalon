@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MassageSalon.WEB.Models.MasseurModel>
+﻿@model IEnumerable<MasseurModel>
 @{
     ViewData["Title"] = "Masseurs";
 }
@@ -15,10 +15,11 @@
         <table class="table table-sm table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>MiddleName</th>
-                    <th>BirthDate</th>
+                    <th>Name</th>
+                    <th>SurnameName</th>
+                    <th>FatherName</th>
+                    <th>Photo</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,8 @@
                         <td>@r.Name</td>
                         <td>@r.Surname</td>
                         <td>@r.FatherName</td>
+                        <td>@r.TitleImagePath</td>
+                        <td>@r.Description</td>
                     </tr>
                 }
             </tbody>

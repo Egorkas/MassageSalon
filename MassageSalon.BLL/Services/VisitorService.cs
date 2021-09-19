@@ -3,7 +3,7 @@ using MassageSalon.DAL.Common.Entities;
 using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace MassageSalon.BLL.Services
 {
@@ -24,11 +24,28 @@ namespace MassageSalon.BLL.Services
             _repository.Delete(id);
         }
 
+        public Visitor Get(Func<Visitor, bool> predicate)
+        {
+            return _repository.Find(predicate).FirstOrDefault();
+        }
+
         public IEnumerable<Visitor> GetAll() =>
             _repository.GetAll();
 
         public Visitor GetById(int id) =>
             _repository.Get(id);
+
+        public Visitor GetWithInclude()
+        {
+            return _repository.GetWithInclude(u => u.Role).FirstOrDefault();
+        }
+
+        public Visitor GetWithInclude(int id)
+        {
+            //throw new NotImplementedException();
+            var visitors = _repository.GetWithInclude(u => u.Role);
+            return visitors.FirstOrDefault(user => user.Id == id);
+        }
 
         public void Update(Visitor visitor) =>
             _repository.Update(visitor);
