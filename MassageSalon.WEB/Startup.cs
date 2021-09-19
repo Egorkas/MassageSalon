@@ -44,12 +44,14 @@ namespace MassageSalon.WEB
             services.AddScoped<IGenericRepository<Visitor>, GenericRepository<Visitor>>();
             services.AddScoped<IGenericRepository<Record>, GenericRepository<Record>>();
             services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
+            services.AddScoped<IGenericRepository<Log>, GenericRepository<Log>>();
 
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVisitorService, VisitorService>();
             services.AddScoped<IRecordService, RecordService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ILoggerService, LoggerService>();
 
             services.AddHttpContextAccessor();
 
