@@ -15,6 +15,7 @@ namespace MassageSalon.DAL.EF.Contexts
         public DbSet<Visitor> Visitors { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         public MassageSalonContext(DbContextOptions<MassageSalonContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
