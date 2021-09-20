@@ -74,9 +74,6 @@ namespace MassageSalon.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env , ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-            var logger = loggerFactory.CreateLogger("FileLogger");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

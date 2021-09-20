@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 namespace MassageSalon.WEB.Controllers
 {
     [Authorize]
-    public class RecordController : Controller
+    public class RecordController : BaseController
     {
         private readonly IMasseurService _masseurService;
         private readonly IRecordService _recordService;

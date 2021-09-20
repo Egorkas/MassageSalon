@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace MassageSalon.WEB.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IVisitorService _visitorService;
         private readonly IRoleService _roleService;

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MassageSalon.WEB.Controllers
 {
     [Authorize]
-    public class ReviewsController : Controller
+    public class ReviewsController : BaseController
     {
         private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
