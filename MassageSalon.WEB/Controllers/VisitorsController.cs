@@ -15,18 +15,16 @@ using System.Threading.Tasks;
 namespace MassageSalon.WEB.Controllers
 {
     [Authorize]
-    public class VisitorsController : Controller
+    public class VisitorsController : BaseController
     {
         private readonly IVisitorService _service;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<VisitorsController> _logger;
-        public VisitorsController(IVisitorService service, IMapper mapper, IHttpContextAccessor httpContextAccessor, ILogger<VisitorsController> logger)
+        public VisitorsController(IVisitorService service, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _service = service;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -36,11 +34,12 @@ namespace MassageSalon.WEB.Controllers
             if (User.IsInRole("admin"))
             {
                 var visitor = _service.GetAll();
+                Logger.LogInformation("Admin get all visitors");
                 return View(_mapper.Map<IEnumerable<VisitorModel>>(visitor));
             }
             else
             {
-                int userId = 0;
+                Logger.LogInformation("Visitor in role visitor get information");
                 var login = _httpContextAccessor.HttpContext.User.Identity.Name;
                 var visitor = _service.Get(x => x.Login == login);
                 var list = new List<Visitor>();
@@ -76,7 +75,7 @@ namespace MassageSalon.WEB.Controllers
                 _service.Update(_mapper.Map<Visitor>(visitor));
                 return RedirectToAction("Index");
             }
-            _logger.LogError("Model isn't valid");
+            Logger.LogError("Model isn't valid");
             return View(visitor);
         }
 

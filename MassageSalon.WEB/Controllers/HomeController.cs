@@ -9,7 +9,7 @@ using MassageSalon.WEB.Models;
 
 namespace MassageSalon.WEB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
