@@ -34,19 +34,23 @@ namespace MassageSalon.WEB.Controllers
             var masseurs = _masseurService.GetAll();
             return View(_mapper.Map<IEnumerable<MasseurModel>>(masseurs));
         }
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id)
-        {
-            var visitor = _masseurService.GetById(id);
 
-            if (visitor == null)
-                return NotFound();
-            return View(_mapper.Map<MasseurModel>(visitor));
+        [HttpGet]
+        [Authorize(Roles ="admin")]
+        public IActionResult Add()
+        {
+            MasseurModel masseur = new MasseurModel() {TitleImagePath = "user_profile.jpg" };
+            return View("Edit", masseur);
+        }
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Edit(MasseurModel masseur)
+        {
+            return View(masseur);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(MasseurModel masseur, IFormFile titleImageFile)
         {
             if (ModelState.IsValid)
@@ -54,12 +58,17 @@ namespace MassageSalon.WEB.Controllers
                 if (titleImageFile != null)
                 {
                     masseur.TitleImagePath = titleImageFile.FileName;
-                    using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, "images/", titleImageFile.FileName), FileMode.Create))
+                    using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, "images/ProfilesPhoto/", titleImageFile.FileName), FileMode.Create))
                     {
                         titleImageFile.CopyTo(stream);
                     }
                 }
-                _masseurService.Create(_mapper.Map<Masseur>(masseur));
+                else masseur.TitleImagePath = "user_profile.jpg";
+                if (masseur.Id == 0)
+                {
+                    _masseurService.Create(_mapper.Map<Masseur>(masseur));
+                }else
+                _masseurService.Update(_mapper.Map<Masseur>(masseur));
                 return RedirectToAction("Index");
             }
 

@@ -24,10 +24,7 @@ namespace MassageSalon.BLL.Services
             _repository.Delete(id);
         }
 
-        public Visitor Get(Func<Visitor, bool> predicate)
-        {
-            return _repository.Find(predicate).FirstOrDefault();
-        }
+        public Visitor Get(Func<Visitor, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
 
         public IEnumerable<Visitor> GetAll() =>
             _repository.GetAll();
@@ -42,7 +39,6 @@ namespace MassageSalon.BLL.Services
 
         public Visitor GetWithInclude(int id)
         {
-            //throw new NotImplementedException();
             var visitors = _repository.GetWithInclude(u => u.Role);
             return visitors.FirstOrDefault(user => user.Id == id);
         }

@@ -2,39 +2,39 @@
 @{
     ViewData["Title"] = "Masseurs";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <title>Responses</title>
-</head>
-<body>
-    <div class="panel-body">
-        <h2>Here is a list of masseurs!</h2>
-        <table class="table table-sm table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>SurnameName</th>
-                    <th>FatherName</th>
-                    <th>Photo</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (MassageSalon.WEB.Models.MasseurModel r in Model)
+
+@{if (User.IsInRole("admin"))
+        @using (Html.BeginForm("Add", "Masseurs", FormMethod.Get))
+        {
+            <div class="form-group">
+                <button type="submit" class="fas fa-plus">Add Visitor</button>
+            </div>
+        }
+}
+
+
+<div class="d-flex justify-content-start flex-row flex-wrap">
+    @foreach (var Masseur in Model.OrderBy(s => s.Surname))
+    {
+    <div class="card" style="width: 18rem; height: 28rem; margin: 2rem;">
+        <img class="card-img-top" src="~/images/ProfilesPhoto/@Masseur.TitleImagePath" alt="Image of Masseur" style="width: 240px; height: 240px;">
+        <div class="card-body">
+            <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
+            <p class="card-text">@Masseur.Description</p>
+            @{if (User.IsInRole("admin"))
                 {
-                    <tr>
-                        <td>@r.Name</td>
-                        <td>@r.Surname</td>
-                        <td>@r.FatherName</td>
-                        <td>@r.TitleImagePath</td>
-                        <td>@r.Description</td>
-                    </tr>
+                    <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>
+                    @*<form asp-action="Delete" asp-route-id="@Masseur.Id" method="post">
+                    <button type="submit"><i class="fas fa-trash"></i></button>
+                </form>*@
+                    @using (Html.BeginForm("Delete", "Masseurs", new { Id = Masseur.Id }, FormMethod.Post))
+                    {
+                        <button type="submit"><i class="fas fa-trash"></i></button>
+                    }
                 }
-            </tbody>
-        </table>
+            }
+        </div>
+        
     </div>
-</body>
-</html>
+    }
+</div>

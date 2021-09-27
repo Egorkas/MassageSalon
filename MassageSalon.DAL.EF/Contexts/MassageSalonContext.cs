@@ -22,7 +22,7 @@ namespace MassageSalon.DAL.EF.Contexts
         {
             Role adminRole = new Role() { Id = 1, Name = "admin" };
             Role visitorRole = new Role() { Id = 2, Name = "user" };
-            Visitor adminVisitor = new Visitor() { Id = 1, Login = "my@gmail.com", Password = "123456", RoleId = adminRole.Id };
+            Visitor adminVisitor = new Visitor() { Id = 1, Login = "admin@gmail.com", Password = "admin", RoleId = adminRole.Id };
 
             builder.Entity<Role>().HasData(new Role[]
             {
