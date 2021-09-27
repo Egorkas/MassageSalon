@@ -11,5 +11,6 @@ namespace MassageSalon.WEB.Models
         public string Description { get; set; }
 
         public IEnumerable<RecordModel> RecordModels { get; set; }
+        public IEnumerable<ReviewModel> RewiewModels { get; set; }
     }
 }

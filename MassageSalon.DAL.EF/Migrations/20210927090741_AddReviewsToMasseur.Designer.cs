@@ -4,14 +4,16 @@ using MassageSalon.DAL.EF.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageSalon.DAL.EF.Migrations
 {
     [DbContext(typeof(MassageSalonContext))]
-    partial class MassageSalonContextModelSnapshot : ModelSnapshot
+    [Migration("20210927090741_AddReviewsToMasseur")]
+    partial class AddReviewsToMasseur
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

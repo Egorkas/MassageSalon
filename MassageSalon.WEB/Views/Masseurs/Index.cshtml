@@ -21,12 +21,11 @@
         <div class="card-body">
             <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
             <p class="card-text">@Masseur.Description</p>
+            <p class="card-text">Review: @Masseur.RewiewModels.Count()</p>
+            @*<a class="card-link" asp-controller="Reviews" asp-action="Index" asp-route-id="@Masseur.Id">Reviews: @Masseur.RewiewModels.Count()</a>*@
             @{if (User.IsInRole("admin"))
                 {
                     <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>
-                    @*<form asp-action="Delete" asp-route-id="@Masseur.Id" method="post">
-                    <button type="submit"><i class="fas fa-trash"></i></button>
-                </form>*@
                     @using (Html.BeginForm("Delete", "Masseurs", new { Id = Masseur.Id }, FormMethod.Post))
                     {
                         <button type="submit"><i class="fas fa-trash"></i></button>

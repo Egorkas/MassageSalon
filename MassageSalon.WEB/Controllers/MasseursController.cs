@@ -76,7 +76,7 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
 
