@@ -12,8 +12,11 @@ namespace MassageSalon.WEB.Models
         [Required]
         [Display(Name = "rewiew")]
         public string UserReview { get; set; }
+        public int VisitorId { get; set; }
+        public VisitorModel Visitor { get; set; }
         [Required]
         public int MasseurId { get; set; }
         public MasseurModel Masseur { get; set; }
+        
     }
 }
