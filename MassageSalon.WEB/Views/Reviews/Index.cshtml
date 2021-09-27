@@ -2,32 +2,31 @@
 @{
     ViewData["Title"] = "Reviews";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <title>Responses</title>
-</head>
-<body>
-    <div class="panel-body">
-        <h2>Reviews</h2>
-        <table class="table table-sm table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Masseur</th>
-                    <th>UserReview</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (MassageSalon.WEB.Models.ReviewModel r in Model)
-                {
-                    <tr>
-                        <td>@r.UserReview</td>
-                        <td>@r.Masseur.Name</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+
+<div class="d-flex flex-column" style="width: 90%; height: 80%;">
+    <div class="d-flex flex-row-reverse">
+        <div class="p-2">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button type="button" class="btn btn-success"
+                        onclick="location.href = '@Url.Action("Edit", "Reviews")'">
+                    Add review
+                </button>
+            }
+        </div>
     </div>
-</body>
+
+    <div class="d-flex flex-column">
+        @foreach (var review in Model.OrderBy(x => x.Masseur.Surname))
+        {
+            <div class="card" style="width: 14rem; height: 14rem; margin: 2rem;">
+                <img class="card-img-top" src="~/images/ProfilesPhoto/@review.Masseur.TitleImagePath" alt="Image of Masseur" style="width: 50%; height: 50%;">
+                <div class="card-body">
+                    <h5 class="card-title">@review.Visitor.Login</h5>
+                    <p class="card-text">@review.UserReview</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -21,8 +21,12 @@
         <div class="card-body">
             <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
             <p class="card-text">@Masseur.Description</p>
-            <p class="card-text">Review: @Masseur.RewiewModels.Count()</p>
-            @*<a class="card-link" asp-controller="Reviews" asp-action="Index" asp-route-id="@Masseur.Id">Reviews: @Masseur.RewiewModels.Count()</a>*@
+            <a asp-controller="Reviews" asp-action="IndexForMasseur"asp-route-id="@Masseur.Id">review</a>
+            @*@using (Html.BeginForm("IndexForMasseur", "Reviews",  Masseur.Id, FormMethod.Post))
+            {
+                <a type="submit" ><i class="fas fa-angrycreative">Review</i></a>
+            }*@
+            @*<button type="button" class="btn" onclick="location.href='@Url.Action("IndexForMasseur", "Reviews", Masseur.Id)'">Reviews</button>*@
             @{if (User.IsInRole("admin"))
                 {
                     <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>

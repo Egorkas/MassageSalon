@@ -31,6 +31,7 @@ namespace MassageSalon.BLL.Services
             return _repository.Find(predicate).FirstOrDefault();
         }
 
+        public IEnumerable<Masseur> GetWithInclude() => _repository.GetWithInclude(x => x.Reviews);
         public IEnumerable<Masseur> GetAll() =>
             _repository.GetAll();
 

@@ -31,7 +31,7 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            var masseurs = _masseurService.GetAll();
+            var masseurs = _masseurService.GetWithInclude();
             return View(_mapper.Map<IEnumerable<MasseurModel>>(masseurs));
         }
 
@@ -42,7 +42,7 @@ namespace MassageSalon.WEB.Controllers
             MasseurModel masseur = new MasseurModel() {TitleImagePath = "user_profile.jpg" };
             return View("Edit", masseur);
         }
-        [HttpGet]
+        [HttpPost]
         [Authorize(Roles = "admin")]
         public IActionResult Edit(MasseurModel masseur)
         {

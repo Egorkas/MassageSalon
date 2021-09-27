@@ -21,7 +21,7 @@ namespace MassageSalon.BLL.Services
             _repository.Create(review);
 
         public IEnumerable<Review> GetAll() =>
-            _repository.GetAll();
+            _repository.GetWithInclude(m => m.Masseur, v => v.Visitor);
 
         public Review GetById(int id) =>
             _repository.Get(id);

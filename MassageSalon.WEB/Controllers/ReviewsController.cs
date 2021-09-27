@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using MassageSalon.BLL.Interfaces;
+using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,25 +17,61 @@ namespace MassageSalon.WEB.Controllers
     public class ReviewsController : BaseController
     {
         private readonly IReviewService _reviewService;
+        private readonly IMasseurService _masseurService;
+        private readonly IVisitorService _visitorService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
-        public ReviewsController(IReviewService reviewService, IMapper mapper)
+        public ReviewsController(IReviewService reviewService,IMasseurService masseurService, IVisitorService visitorService, IHttpContextAccessor httpContextAccessor,  IMapper mapper)
         {
             _reviewService = reviewService;
+            _masseurService = masseurService;
+            _visitorService = visitorService;
+            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
         }
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Index()
         {
+            Logger.LogInformation("Get request for reviews get all");
             var reviews = _reviewService.GetAll();
             return View(_mapper.Map<IEnumerable<ReviewModel>>(reviews));
         }
         [HttpGet]
-        public IActionResult Index(int id)
+        public IActionResult IndexForMasseur(int masseurId)
         {
             var reviews = _reviewService.GetAll();
-            return View(_mapper.Map<IEnumerable<ReviewModel>>(reviews.Where(r => r.MasseurId == id)));
+            return View("Index", _mapper.Map<IEnumerable<ReviewModel>>(reviews.Where(r => r.MasseurId == masseurId)));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(string? reviewDesc, int? masseurId)
+        {
+            if (masseurId == null || reviewDesc == null)
+            {
+                ModelState.AddModelError("", "Review text and barber must not be null");
+                return RedirectToAction("Index", "Reviews");
+            }
+
+            Logger.LogInformation($"Get request for reviews add");
+            var review = new ReviewModel()
+            {
+                MasseurId = _mapper.Map<Masseur, MasseurModel>(_masseurService.GetById((int)masseurId)).Id,
+                UserReview = reviewDesc,
+                VisitorId = _visitorService.Get(u => u.Login == User.Identity.Name).Id
+            };
+
+            _reviewService.Create(_mapper.Map<ReviewModel, Review>(review));
+            ViewBag.Message = "Success add review. Thanks for your attention";
+            return RedirectToAction("Index", "Reviews");
         }
     }
 }
