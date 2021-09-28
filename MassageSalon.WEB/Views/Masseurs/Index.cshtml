@@ -7,7 +7,7 @@
         @using (Html.BeginForm("Add", "Masseurs", FormMethod.Get))
         {
             <div class="form-group">
-                <button type="submit" class="fas fa-plus">Add Visitor</button>
+                <button type="submit" class="fas fa-plus">Add Masseur</button>
             </div>
         }
 }
@@ -16,17 +16,13 @@
 <div class="d-flex justify-content-start flex-row flex-wrap">
     @foreach (var Masseur in Model.OrderBy(s => s.Surname))
     {
-    <div class="card" style="width: 18rem; height: 28rem; margin: 2rem;">
+    <div class="card text-center text-white bg-dark mb-3" >
         <img class="card-img-top" src="~/images/ProfilesPhoto/@Masseur.TitleImagePath" alt="Image of Masseur" style="width: 240px; height: 240px;">
         <div class="card-body">
             <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
             <p class="card-text">@Masseur.Description</p>
-            <a asp-controller="Reviews" asp-action="IndexForMasseur"asp-route-id="@Masseur.Id">review</a>
-            @*@using (Html.BeginForm("IndexForMasseur", "Reviews",  Masseur.Id, FormMethod.Post))
-            {
-                <a type="submit" ><i class="fas fa-angrycreative">Review</i></a>
-            }*@
-            @*<button type="button" class="btn" onclick="location.href='@Url.Action("IndexForMasseur", "Reviews", Masseur.Id)'">Reviews</button>*@
+            <p class="card-text"><a asp-controller="Reviews" asp-action="IndexForMasseur"asp-route-id="@Masseur.Id"class="btn btn-primary"><i class="fas fa-angry">Rewievs</i></a></p>
+
             @{if (User.IsInRole("admin"))
                 {
                     <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>

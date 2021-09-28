@@ -1,15 +1,18 @@
-﻿@model IEnumerable<VisitorModel>
+﻿@model IEnumerable<MasseurModel>
+@{ 
+    ViewBag.Title = "Add/Edit Review";
+}
 
 @using (Html.BeginForm("Edit", "Reviews", FormMethod.Post))
 {
     <div>
         <div class="form-group">
-            <label>Write your review</label>
+            <label>Enter review</label>
             <input name="reviewText" class="form-control" type="text" />
             <span class="alert-danger" />
         </div>
         <div class="form-group">
-            <select name="barberId" style="margin: 10px;">
+            <select name="masseurId" style="margin: 10px;">
                 @foreach (var masseur in Model.OrderBy(b => b.Surname))
                 {
                     <option value="@masseur.Id">@masseur.Name @masseur.Surname</option>

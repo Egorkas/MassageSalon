@@ -39,17 +39,18 @@ namespace MassageSalon.WEB.Controllers
             return View(_mapper.Map<IEnumerable<ReviewModel>>(reviews));
         }
         [HttpGet]
-        public IActionResult IndexForMasseur(int masseurId)
+        public IActionResult IndexForMasseur(int Id)
         {
             var reviews = _reviewService.GetAll();
-            return View("Index", _mapper.Map<IEnumerable<ReviewModel>>(reviews.Where(r => r.MasseurId == masseurId)));
+            return View("Index", _mapper.Map<IEnumerable<ReviewModel>>(reviews.Where(r => r.MasseurId == Id)));
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult Edit()
         {
-            return View();
+            IEnumerable<Masseur> masseurs = _masseurService.GetAll();
+            return View(_mapper.Map<IEnumerable<Masseur>,IEnumerable<MasseurModel>>(masseurs));
         }
         [Authorize]
         [HttpPost]
@@ -57,7 +58,7 @@ namespace MassageSalon.WEB.Controllers
         {
             if (masseurId == null || reviewDesc == null)
             {
-                ModelState.AddModelError("", "Review text and barber must not be null");
+                ModelState.AddModelError("", "Review text an must not be null");
                 return RedirectToAction("Index", "Reviews");
             }
 
