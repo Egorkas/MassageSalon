@@ -11,6 +11,7 @@ namespace MassageSalon.WEB.Models
         public int Id { get; set; }
         [Required]
         [Display(Name = "rewiew")]
+        [MaxLength(100,ErrorMessage ="Max Length equal 100 symbols.")]
         public string UserReview { get; set; }
         public int VisitorId { get; set; }
         public VisitorModel Visitor { get; set; }
