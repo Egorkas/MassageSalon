@@ -50,25 +50,23 @@ namespace MassageSalon.WEB.Controllers
         public IActionResult Edit()
         {
             IEnumerable<Masseur> masseurs = _masseurService.GetAll();
-            return View(_mapper.Map<IEnumerable<Masseur>,IEnumerable<MasseurModel>>(masseurs));
+            ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
+            return View();
         }
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(string? reviewDesc, int? masseurId)
+        public IActionResult Edit(ReviewModel review)
         {
-            if (masseurId == null || reviewDesc == null)
+            if(!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Review text an must not be null");
-                return RedirectToAction("Index", "Reviews");
-            }
+                IEnumerable<Masseur> masseurs = _masseurService.GetAll();
+                ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
 
+                return View(review);
+            }
             Logger.LogInformation($"Get request for reviews add");
-            var review = new ReviewModel()
-            {
-                MasseurId = _mapper.Map<Masseur, MasseurModel>(_masseurService.GetById((int)masseurId)).Id,
-                UserReview = reviewDesc,
-                VisitorId = _visitorService.Get(u => u.Login == User.Identity.Name).Id
-            };
+           
+            review.VisitorId = _visitorService.Get(v => v.Login == User.Identity.Name).Id;
 
             _reviewService.Create(_mapper.Map<ReviewModel, Review>(review));
             ViewBag.Message = "Success add review. Thanks for your attention";
