@@ -67,18 +67,18 @@ namespace MassageSalon.WebApi
 
             //app.UseSwagger();
 
-            //app.UseSwaggerUI(c => 
+            //app.UseSwaggerUI(c =>
             //{
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             //});
 
             //app.UseCors("CorsPolicy");
             //app.UseMvc();
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseRouting();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
 
             if (!env.IsDevelopment())
             {

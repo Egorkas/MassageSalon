@@ -42,7 +42,7 @@ namespace MassageSalon.WEB.Controllers
             MasseurModel masseur = new MasseurModel() {TitleImagePath = "user_profile.jpg" };
             return View("Edit", masseur);
         }
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult Edit(MasseurModel masseur)
         {
