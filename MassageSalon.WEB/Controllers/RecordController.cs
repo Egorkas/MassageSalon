@@ -23,15 +23,13 @@ namespace MassageSalon.WEB.Controllers
         private readonly IVisitorService _visitorService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        private readonly ILogger<RecordController> _logger;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor, ILogger<RecordController> logger )
+        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor)
         {
             _masseurService = masseurService;
             _recordService = recordService;
             _visitorService = visitorService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -56,15 +54,14 @@ namespace MassageSalon.WEB.Controllers
 
             if (!ModelState.IsValid)
             {
-                _logger.LogInformation("Model isn't valid");
-                //ViewBag.Message = "Sorry, this record exist";
+                Logger.LogInformation("Model isn't valid");
                 return View();
             }
 
             var existRecord = _recordService.IsExists(recordModel.MasseurId, recordModel.TimeRecord);
             if (existRecord != null)
             {
-                _logger.LogInformation("Model isn't valid");
+                Logger.LogInformation("Model isn't valid");
                 ViewBag.Message = "Sorry, this record exist";
                 return View();
             }

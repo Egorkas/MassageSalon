@@ -10,6 +10,7 @@ namespace MassageSalon.BLL.Interfaces
         void Create(Masseur Masseur);
         Masseur GetById(int id);
         IEnumerable<Masseur> GetAll();
+        IEnumerable<Masseur> GetWithInclude();
         void Update(Masseur Masseur);
         void Delete(int id);
         Masseur Get(Func<Masseur, bool> predicate);

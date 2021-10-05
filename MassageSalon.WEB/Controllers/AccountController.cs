@@ -47,10 +47,7 @@ namespace MassageSalon.WEB.Controllers
                 {
                     // Add visitor to Db
                     visitor = new VisitorModel { Name = model.Name, Login = model.Login, Password = model.Password };
-                    //RoleModel visitorRole = _mapper.Map<Role, RoleModel>(_roleService.Get(r => r.Name == "user"));
-                    //if (visitorRole != null)
-                    //    visitor.Role = visitorRole;
-
+                    
                     _visitorService.Create(_mapper.Map<VisitorModel, Visitor>(visitor));
                     visitor = _mapper.Map<Visitor, VisitorModel>
                         (_visitorService.GetWithInclude

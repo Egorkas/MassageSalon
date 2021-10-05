@@ -48,14 +48,12 @@ namespace MassageSalon.WEB.Controllers
             }
         }
 
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Edit(int id)
         {
             var visitor = _service.GetById(id);
-
-            if (visitor == null)
-                return NotFound();
             return View(_mapper.Map<VisitorModel>(visitor));
         }
 
@@ -63,20 +61,22 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Edit(VisitorModel visitor)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var visitorId = _service.Get(v => v.Login == visitor.Login).Id;
-                if (visitorId == 0)
+                Logger.LogInformation($"Get request for edit visitor with Login {visitor.Login}");
+                if (ModelState.IsValid)
                 {
+                    visitor.Id = _service.Get(x => x.Login == visitor.Login).Id;
                     _service.Update(_mapper.Map<Visitor>(visitor));
                     return RedirectToAction("Index");
                 }
-                visitor.Id = visitorId;
-                _service.Update(_mapper.Map<Visitor>(visitor));
+                return View(visitor);
+            }catch(Exception e)
+            {
+                Logger.LogError($"Error to edit visitor with Login {visitor.Login}. " +
+                                $"Exception message: {e.Message}");
                 return RedirectToAction("Index");
             }
-            Logger.LogError("Model isn't valid");
-            return View(visitor);
         }
 
         [HttpPost]
@@ -85,9 +85,11 @@ namespace MassageSalon.WEB.Controllers
         {
             if (_service.GetById(id).RoleId == 1)
             {
+                Logger.LogInformation("Can't delete visitor with admin rules");
                 return RedirectToAction("Index");
             }
             _service.Delete(id);
+            Logger.LogInformation($"Visitor with id = {id} has been deleted!");
             return RedirectToAction("Index");
         }
     }

@@ -211,8 +211,8 @@ namespace MassageSalon.DAL.EF.Migrations
                         new
                         {
                             Id = 1,
-                            Login = "my@gmail.com",
-                            Password = "123456",
+                            Login = "admin@gmail.com",
+                            Password = "admin",
                             RoleId = 1
                         });
                 });
@@ -239,7 +239,7 @@ namespace MassageSalon.DAL.EF.Migrations
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Review", b =>
                 {
                     b.HasOne("MassageSalon.DAL.Common.Entities.Masseur", "Masseur")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("MasseurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -267,6 +267,8 @@ namespace MassageSalon.DAL.EF.Migrations
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Masseur", b =>
                 {
                     b.Navigation("Records");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Role", b =>

@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ReviewModel
+@{ 
+    ViewBag.Title = "Add/Edit Review";
+    IEnumerable<MasseurModel> masseurs = ViewData["Masseurs"] as IEnumerable<MasseurModel>;
+}
+
+@using (Html.BeginForm("Edit", "Reviews", FormMethod.Post))
+{
+    <div>
+        <div class="form-group">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <label>Enter review</label>
+            <input name="UserReview" class="form-control" type="text" />
+            <span class="alert-danger" asp-validation-for="UserReview" />
+        </div>
+        <div class="form-group">
+            <select name="masseurId" style="margin: 10px;">
+                @foreach (var masseur in masseurs.OrderBy(b => b.Surname))
+                {
+                    <option value="@masseur.Id">@masseur.Name @masseur.Surname</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Add review</button>
+    </div>
 }
