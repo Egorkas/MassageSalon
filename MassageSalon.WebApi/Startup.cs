@@ -38,16 +38,19 @@ namespace MassageSalon.WebApi
             services.AddScoped<IVisitorService, VisitorService>();
             services.AddScoped<IRecordService, RecordService>();
 
-            services.AddControllers(options => options.EnableEndpointRouting = false);
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
+            services.AddControllers();
 
             //services.AddSwaggerGen();
+            //services.AddControllers(options => options.EnableEndpointRouting = false);
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader());
+            //});
+
+            
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -63,7 +66,7 @@ namespace MassageSalon.WebApi
             }
 
             //app.UseDefaultFiles();
-            app.UseStaticFiles();
+           
 
             //app.UseSwagger();
 
@@ -74,12 +77,12 @@ namespace MassageSalon.WebApi
 
             //app.UseCors("CorsPolicy");
             //app.UseMvc();
-            //app.UseRouting();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
-
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
