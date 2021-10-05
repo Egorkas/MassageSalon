@@ -15,6 +15,7 @@ namespace MassageSalon.DAL.EF.Contexts
         public DbSet<Visitor> Visitors { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Offer> Offers { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         public MassageSalonContext(DbContextOptions<MassageSalonContext> options) : base(options) { }
@@ -29,12 +30,12 @@ namespace MassageSalon.DAL.EF.Contexts
                 adminRole,
                 visitorRole
             });
-            builder.Entity<Visitor>().HasData(new Visitor [] 
+            builder.Entity<Visitor>().HasData(new Visitor[]
             {
                 adminVisitor
             });
 
-
+            //add masseurs
             builder.Entity<Masseur>().HasData(new Masseur
             {
                 Id = 1,
@@ -59,6 +60,38 @@ namespace MassageSalon.DAL.EF.Contexts
                 Description = "The best masseur"
             });
 
+            //add offers
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 1,
+                Title = "Classic massage",
+                Description = "Full body",
+                Price = 40
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 2,
+                Title = "Hot stone massage",
+                Description = "Back and shoulder",
+                Price = 55
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 1,
+                Title = "Indian head massage",
+                Description = "Head and face massage",
+                Price = 43
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 1,
+                Title = "Foot/reflexology massage",
+                Description = "Foot and legs",
+                Price = 25
+            });
             base.OnModelCreating(builder);
         }
 
