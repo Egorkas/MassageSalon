@@ -82,7 +82,7 @@ namespace MassageSalon.DAL.EF.Contexts
 
             builder.Entity<Offer>().HasData(new Offer
             {
-                Id = 1,
+                Id = 3,
                 Title = "Indian head massage",
                 Description = "Head and face massage",
                 Price = 43
@@ -90,7 +90,7 @@ namespace MassageSalon.DAL.EF.Contexts
 
             builder.Entity<Offer>().HasData(new Offer
             {
-                Id = 1,
+                Id = 4 ,
                 Title = "Foot/reflexology massage",
                 Description = "Foot and legs",
                 Price = 25
