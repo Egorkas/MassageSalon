@@ -16,7 +16,7 @@
 <div class="d-flex justify-content-start flex-row flex-wrap">
     @foreach (var Masseur in Model.OrderBy(s => s.Surname))
     {
-    <div class="card text-center text-white bg-dark mb-3" >
+    <div class="card w-50 border-primary" mb-3 >
         <img class="card-img-top" src="~/images/ProfilesPhoto/@Masseur.TitleImagePath" alt="Image of Masseur" style="width: 240px; height: 240px;">
         <div class="card-body">
             <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
