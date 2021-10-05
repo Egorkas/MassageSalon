@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>SurnameName</th>
                     <th>Masseur</th>
                     <th>Time</th>
                 </tr>
@@ -24,8 +25,9 @@
                 @foreach ( var r in Model)
                 {
                     <tr>
-                        <td>@r.VisitorId</td>
-                        <td>@r.MasseurId</td>
+                        <td>@r.Visitor.Name</td>
+                        <td>@r.Visitor.Surname</td>
+                        <td>@r.Masseur.Name @r.Masseur.Surname</td>
                         <td>@r.TimeRecord</td>
                     </tr>
                 }

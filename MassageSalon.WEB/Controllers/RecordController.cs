@@ -35,7 +35,7 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var records = _recordService.GetAll();
+            var records = _recordService.GetWithInclude();
             return View(_mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(records));
         }
 
