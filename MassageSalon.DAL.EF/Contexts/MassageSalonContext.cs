@@ -41,7 +41,8 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 1,
                 Name = "Makar",
                 Surname = "Sham",
-                Description = "The best masseur"
+                Description = "The best masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
@@ -49,7 +50,8 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 2,
                 Name = "Bega",
                 Surname = "Dobrov",
-                Description = "Good masseur"
+                Description = "Good masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
@@ -57,7 +59,8 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 3,
                 Name = "Egor",
                 Surname = "Karas",
-                Description = "The best masseur"
+                Description = "The best masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
             //add offers
