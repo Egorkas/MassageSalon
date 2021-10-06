@@ -34,47 +34,58 @@ namespace MassageSalon.WEB.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            var records = _recordService.GetWithInclude();
+            ViewData["Title"] = "Records";
+            if (User.IsInRole("admin"))
+            {
+                var allRecords = _recordService.GetWithInclude();
+                return View(_mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(allRecords));
+            }
+            
+            var records = _recordService.GetWithInclude().Where(x => x.Visitor.Login == User.Identity.Name);
             return View(_mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(records));
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult CreateRecord()
         {
+            ViewData["Title"] = "Record";
             var masseurs = _masseurService.GetAll();
-            ViewBag.Masseurs = new SelectList(_mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs), "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
+            ViewData["Offers"] = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(offers);
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult CreateRecord(RecordModel recordModel)
         {
 
             if (!ModelState.IsValid)
             {
                 Logger.LogInformation("Model isn't valid");
-                return View();
+                return View(recordModel);
             }
 
             var existRecord = _recordService.IsExists(recordModel.MasseurId, recordModel.TimeRecord);
             if (existRecord != null)
             {
                 Logger.LogInformation("Model isn't valid");
-                ViewBag.Message = "Sorry, this record exist";
-                return View();
+                ViewData["Title"] = "Sorry, this record exist";
+                var masseurs = _masseurService.GetAll();
+                var offers = _offerService.GetAll();
+                ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
+                ViewData["Offers"] = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(offers);
+                return View(recordModel);
             }
-            var login = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var visitor = _visitorService.Get(x => x.Login == login);
+            var visitor = _visitorService.Get(x => x.Login == User.Identity.Name).Id;
             
             var record = new RecordModel()
             {
                 TimeRecord = recordModel.TimeRecord,
                 MasseurId = recordModel.MasseurId,
-                VisitorId = visitor.Id,
+                VisitorId = visitor,
+                OfferId = recordModel.OfferId,
                 Detail = recordModel.Detail
             };
 
