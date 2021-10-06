@@ -14,6 +14,6 @@ namespace MassageSalon.WEB.Models
         public string Title { get; set; }
         public string Description { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
     }
 }
