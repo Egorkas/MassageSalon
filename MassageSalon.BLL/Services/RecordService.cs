@@ -22,7 +22,7 @@ namespace MassageSalon.BLL.Services
 
         public Record Get(Func<Record, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
         public IEnumerable<Record> GetWithInclude() =>
-            _repository.GetWithInclude(m => m.Masseur, v => v.Visitor);
+            _repository.GetWithInclude(m => m.Masseur, v => v.Visitor, o => o.Offer);
         public IEnumerable<Record> GetAll() => _repository.GetAll();
 
         public Record GetById(int id) => _repository.Get(id);

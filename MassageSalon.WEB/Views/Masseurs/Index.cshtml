@@ -25,7 +25,8 @@
 
             @{if (User.IsInRole("admin"))
                 {
-                    <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>
+                    @*<button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>*@
+                    <a class="fas fa-edit" onclick="location.href = '@Url.Action("Edit", "Masseurs", Masseur)'">Edit</a>
                     @using (Html.BeginForm("Delete", "Masseurs", new { Id = Masseur.Id }, FormMethod.Post))
                     {
                         <button type="submit"><i class="fas fa-trash"></i></button>

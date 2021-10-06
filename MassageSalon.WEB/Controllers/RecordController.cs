@@ -22,12 +22,14 @@ namespace MassageSalon.WEB.Controllers
         private readonly IRecordService _recordService;
         private readonly IVisitorService _visitorService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IOfferService _offerService;
         private readonly IMapper _mapper;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IHttpContextAccessor httpContextAccessor)
+        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IOfferService offerService, IHttpContextAccessor httpContextAccessor)
         {
             _masseurService = masseurService;
             _recordService = recordService;
             _visitorService = visitorService;
+            _offerService = offerService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
