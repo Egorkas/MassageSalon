@@ -69,7 +69,7 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 1,
                 Title = "Classic massage",
                 Description = "Full body",
-                Price = 40
+                Price = 40m
             });
 
             builder.Entity<Offer>().HasData(new Offer
@@ -77,7 +77,7 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 2,
                 Title = "Hot stone massage",
                 Description = "Back and shoulder",
-                Price = 55
+                Price = 55m
             });
 
             builder.Entity<Offer>().HasData(new Offer
@@ -85,7 +85,7 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 3,
                 Title = "Indian head massage",
                 Description = "Head and face massage",
-                Price = 43
+                Price = 43m
             });
 
             builder.Entity<Offer>().HasData(new Offer
@@ -93,7 +93,7 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 4 ,
                 Title = "Foot/reflexology massage",
                 Description = "Foot and legs",
-                Price = 25
+                Price = 25m
             });
             base.OnModelCreating(builder);
         }

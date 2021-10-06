@@ -21,6 +21,7 @@ namespace MassageSalon.WEB.Controllers
             _offerService = offerService;
             _mapper = mapper;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var offers = _offerService.GetAll();

@@ -45,6 +45,7 @@ namespace MassageSalon.WEB
             services.AddScoped<IGenericRepository<Record>, GenericRepository<Record>>();
             services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
             services.AddScoped<IGenericRepository<Log>, GenericRepository<Log>>();
+            services.AddScoped<IGenericRepository<Offer>, GenericRepository<Offer>>();
 
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
@@ -52,6 +53,7 @@ namespace MassageSalon.WEB
             services.AddScoped<IRecordService, RecordService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ILoggerService, LoggerService>();
+            services.AddScoped<IOfferService, OfferService>();
 
             services.AddHttpContextAccessor();
 
