@@ -18,6 +18,8 @@
                     <th>Name</th>
                     <th>SurnameName</th>
                     <th>Masseur</th>
+                    <th>Offer</th>
+                    <th>Price</th>
                     <th>Time</th>
                 </tr>
             </thead>
@@ -28,6 +30,8 @@
                         <td>@r.Visitor.Name</td>
                         <td>@r.Visitor.Surname</td>
                         <td>@r.Masseur.Name @r.Masseur.Surname</td>
+                        <td>@r.Offer.Title</td>
+                        <td>@r.Offer.Price</td>
                         <td>@r.TimeRecord</td>
                     </tr>
                 }

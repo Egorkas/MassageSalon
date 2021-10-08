@@ -18,6 +18,8 @@ namespace MassageSalon.WEB.Models
         public VisitorModel Visitor { get; set; }
         public int MasseurId { get; set; }
         public MasseurModel Masseur { get; set; }
+        public int OfferId { get; set; }
+        public OfferModel Offer { get; set; }
      }
 }
 

@@ -1,6 +1,7 @@
 ﻿@model RecordModel
 @{
-    ViewData["Title"] = "Records";
+    IEnumerable<MasseurModel> masseurs = ViewData["Masseurs"] as IEnumerable<MasseurModel>;
+    IEnumerable<OfferModel> offers = ViewData["Offers"] as IEnumerable<OfferModel>;
 }
 
 @using (Html.BeginForm("CreateRecord", "Record", FormMethod.Post))
@@ -13,8 +14,23 @@
     <div>
         <div>
             <label asp-for="MasseurId">Select the Masseur</label><br />
-            @Html.DropDownListFor(model => model.MasseurId, (IEnumerable<SelectListItem>)ViewBag.Masseurs, new { @class = "form-control" })
+            <select name="masseurId" style="margin: 10px;">
+                @foreach (var masseur in masseurs.OrderBy(b => b.Surname))
+                {
+                    <option value="@masseur.Id">@masseur.Name @masseur.Surname</option>
+                }
+            </select>
             <span asp-validation-for="MasseurId" />
+        </div>
+        <div>
+            <label asp-for="OfferId">Select the service</label><br />
+            <select name="offerId" style="margin: 10px;">
+                @foreach (var offer in offers.OrderBy(b => b.Title))
+                {
+                <option value="@offer.Id">@offer.Title @offer.Price&#128176</option>
+                }
+            </select>
+            <span asp-validation-for="OfferId" />
         </div>
         <div>
             <label asp-for="TimeRecord">Select time</label><br />

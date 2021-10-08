@@ -15,6 +15,7 @@ namespace MassageSalon.DAL.EF.Contexts
         public DbSet<Visitor> Visitors { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Offer> Offers { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         public MassageSalonContext(DbContextOptions<MassageSalonContext> options) : base(options) { }
@@ -29,18 +30,19 @@ namespace MassageSalon.DAL.EF.Contexts
                 adminRole,
                 visitorRole
             });
-            builder.Entity<Visitor>().HasData(new Visitor [] 
+            builder.Entity<Visitor>().HasData(new Visitor[]
             {
                 adminVisitor
             });
 
-
+            //add masseurs
             builder.Entity<Masseur>().HasData(new Masseur
             {
                 Id = 1,
                 Name = "Makar",
                 Surname = "Sham",
-                Description = "The best masseur"
+                Description = "The best masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
@@ -48,7 +50,8 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 2,
                 Name = "Bega",
                 Surname = "Dobrov",
-                Description = "Good masseur"
+                Description = "Good masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
@@ -56,9 +59,42 @@ namespace MassageSalon.DAL.EF.Contexts
                 Id = 3,
                 Name = "Egor",
                 Surname = "Karas",
-                Description = "The best masseur"
+                Description = "The best masseur",
+                TitleImagePath = "user_profile.jpg"
             });
 
+            //add offers
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 1,
+                Title = "Classic massage",
+                Description = "Full body",
+                Price = 40
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 2,
+                Title = "Hot stone massage",
+                Description = "Back and shoulder",
+                Price = 55
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 3,
+                Title = "Indian head massage",
+                Description = "Head and face massage",
+                Price = 43
+            });
+
+            builder.Entity<Offer>().HasData(new Offer
+            {
+                Id = 4 ,
+                Title = "Foot/reflexology massage",
+                Description = "Foot and legs",
+                Price = 25
+            });
             base.OnModelCreating(builder);
         }
 

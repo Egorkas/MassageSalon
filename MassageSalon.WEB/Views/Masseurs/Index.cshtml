@@ -16,7 +16,7 @@
 <div class="d-flex justify-content-start flex-row flex-wrap">
     @foreach (var Masseur in Model.OrderBy(s => s.Surname))
     {
-    <div class="card text-center text-white bg-dark mb-3" >
+    <div class="card w-50 border-primary" mb-3 >
         <img class="card-img-top" src="~/images/ProfilesPhoto/@Masseur.TitleImagePath" alt="Image of Masseur" style="width: 240px; height: 240px;">
         <div class="card-body">
             <h5 class="card-title">@Masseur.Name @Masseur.Surname</h5>
@@ -25,7 +25,8 @@
 
             @{if (User.IsInRole("admin"))
                 {
-                    <button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>
+                    @*<button type="button" class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Masseurs", Masseur)'">Edit</button>*@
+                    <a class="fas fa-edit" onclick="location.href = '@Url.Action("Edit", "Masseurs", Masseur)'">Edit</a>
                     @using (Html.BeginForm("Delete", "Masseurs", new { Id = Masseur.Id }, FormMethod.Post))
                     {
                         <button type="submit"><i class="fas fa-trash"></i></button>

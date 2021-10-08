@@ -22,12 +22,17 @@ namespace MassageSalon.BLL.Services
 
         public Record Get(Func<Record, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
         public IEnumerable<Record> GetWithInclude() =>
-            _repository.GetWithInclude(m => m.Masseur, v => v.Visitor);
+            _repository.GetWithInclude(m => m.Masseur, v => v.Visitor, o => o.Offer);
         public IEnumerable<Record> GetAll() => _repository.GetAll();
 
         public Record GetById(int id) => _repository.Get(id);
 
-        public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && (x.TimeRecord.Ticks >= date.Ticks && date.AddHours(1).Ticks >= x.TimeRecord.Ticks)).FirstOrDefault();
+        public Record IsExists(int masseurId, DateTime date)
+        {
+            var record = _repository.Find(x => x.MasseurId == masseurId && (x.TimeRecord >= date || (x.TimeRecord.AddHours(1) > date && x.TimeRecord.AddHours(-1) < date))).FirstOrDefault();
+
+            return record;
+        }
 
         public void Update(Record record) => _repository.Update(record);
 
