@@ -12,7 +12,6 @@ namespace MassageSalon.BLL.Extensions
                          .Replace(".", "")
                          .Replace("?", "")
                          .Replace("/", "")
-                         .Replace("\\", "")
                          .Trim();
         }
     }

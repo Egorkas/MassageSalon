@@ -27,5 +27,11 @@ namespace MassageSalon.WEB.Controllers
             var offers = _offerService.GetAll();
             return View(_mapper.Map<IEnumerable<Offer>,IEnumerable<OfferModel>>(offers));
         }
+        [AllowAnonymous]
+        public IActionResult Search(string search)
+        {
+            var offers = _offerService.Search(search);
+            return View("Index", _mapper.Map<IEnumerable<OfferModel>>(offers));
+        }
     }
 }
