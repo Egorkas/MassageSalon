@@ -72,21 +72,75 @@ namespace MassageSalon.DAL.EF.Migrations
                             Id = 1,
                             Description = "The best masseur",
                             Name = "Makar",
-                            Surname = "Sham"
+                            Surname = "Sham",
+                            TitleImagePath = "user_profile.jpg"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Good masseur",
                             Name = "Bega",
-                            Surname = "Dobrov"
+                            Surname = "Dobrov",
+                            TitleImagePath = "user_profile.jpg"
                         },
                         new
                         {
                             Id = 3,
                             Description = "The best masseur",
                             Name = "Egor",
-                            Surname = "Karas"
+                            Surname = "Karas",
+                            TitleImagePath = "user_profile.jpg"
+                        });
+                });
+
+            modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Full body",
+                            Price = 40,
+                            Title = "Classic massage"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Back and shoulder",
+                            Price = 55,
+                            Title = "Hot stone massage"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Head and face massage",
+                            Price = 43,
+                            Title = "Indian head massage"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Foot and legs",
+                            Price = 25,
+                            Title = "Foot/reflexology massage"
                         });
                 });
 
@@ -103,6 +157,9 @@ namespace MassageSalon.DAL.EF.Migrations
                     b.Property<int>("MasseurId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
@@ -115,6 +172,8 @@ namespace MassageSalon.DAL.EF.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MasseurId");
+
+                    b.HasIndex("OfferId");
 
                     b.HasIndex("VisitorId");
 
@@ -225,6 +284,12 @@ namespace MassageSalon.DAL.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MassageSalon.DAL.Common.Entities.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MassageSalon.DAL.Common.Entities.Visitor", "Visitor")
                         .WithMany()
                         .HasForeignKey("VisitorId")
@@ -232,6 +297,8 @@ namespace MassageSalon.DAL.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Masseur");
+
+                    b.Navigation("Offer");
 
                     b.Navigation("Visitor");
                 });

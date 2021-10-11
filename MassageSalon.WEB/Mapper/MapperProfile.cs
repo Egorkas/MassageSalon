@@ -18,7 +18,8 @@ namespace MassageSalon.WEB.Mapper
             CreateMap<Review, ReviewModel>().ReverseMap(); 
             CreateMap<Visitor, VisitorModel>().ReverseMap(); 
             CreateMap<Role, RoleModel>().ReverseMap(); 
-            CreateMap<Log, LogModel>().ReverseMap(); 
+            CreateMap<Log, LogModel>().ReverseMap();
+            CreateMap<Offer, OfferModel>().ReverseMap();
         }
     }
 }

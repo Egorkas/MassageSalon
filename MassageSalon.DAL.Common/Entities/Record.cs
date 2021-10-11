@@ -14,6 +14,8 @@ namespace MassageSalon.DAL.Common.Entities
         public Visitor Visitor { get; set; }
         public int MasseurId { get; set; }
         public Masseur Masseur { get; set; }
+        public int OfferId { get; set; }
+        public Offer Offer { get; set; }
         
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageSalon.DAL.EF.Migrations
 {
     [DbContext(typeof(MassageSalonContext))]
-    [Migration("20210910144714_SomeChangeInRole")]
-    partial class SomeChangeInRole
+    [Migration("20211006080319_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace MassageSalon.DAL.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logs");
+                });
 
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Masseur", b =>
                 {
@@ -53,21 +74,75 @@ namespace MassageSalon.DAL.EF.Migrations
                             Id = 1,
                             Description = "The best masseur",
                             Name = "Makar",
-                            Surname = "Sham"
+                            Surname = "Sham",
+                            TitleImagePath = "user_profile.jpg"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Good masseur",
                             Name = "Bega",
-                            Surname = "Dobrov"
+                            Surname = "Dobrov",
+                            TitleImagePath = "user_profile.jpg"
                         },
                         new
                         {
                             Id = 3,
                             Description = "The best masseur",
                             Name = "Egor",
-                            Surname = "Karas"
+                            Surname = "Karas",
+                            TitleImagePath = "user_profile.jpg"
+                        });
+                });
+
+            modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Full body",
+                            Price = 40,
+                            Title = "Classic massage"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Back and shoulder",
+                            Price = 55,
+                            Title = "Hot stone massage"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Head and face massage",
+                            Price = 43,
+                            Title = "Indian head massage"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Foot and legs",
+                            Price = 25,
+                            Title = "Foot/reflexology massage"
                         });
                 });
 
@@ -78,15 +153,31 @@ namespace MassageSalon.DAL.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Detail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MasseurId")
                         .HasColumnType("int");
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("TimeRecord")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("VisitorId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MasseurId");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("VisitorId");
 
                     b.ToTable("Records");
                 });
@@ -181,8 +272,8 @@ namespace MassageSalon.DAL.EF.Migrations
                         new
                         {
                             Id = 1,
-                            Login = "my@gmail.com",
-                            Password = "123456",
+                            Login = "admin@gmail.com",
+                            Password = "admin",
                             RoleId = 1
                         });
                 });
@@ -190,18 +281,34 @@ namespace MassageSalon.DAL.EF.Migrations
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Record", b =>
                 {
                     b.HasOne("MassageSalon.DAL.Common.Entities.Masseur", "Masseur")
-                        .WithMany()
+                        .WithMany("Records")
                         .HasForeignKey("MasseurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MassageSalon.DAL.Common.Entities.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MassageSalon.DAL.Common.Entities.Visitor", "Visitor")
+                        .WithMany()
+                        .HasForeignKey("VisitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Masseur");
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("Visitor");
                 });
 
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Review", b =>
                 {
                     b.HasOne("MassageSalon.DAL.Common.Entities.Masseur", "Masseur")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("MasseurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -220,10 +327,22 @@ namespace MassageSalon.DAL.EF.Migrations
             modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Visitor", b =>
                 {
                     b.HasOne("MassageSalon.DAL.Common.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Masseur", b =>
+                {
+                    b.Navigation("Records");
+
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("MassageSalon.DAL.Common.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
