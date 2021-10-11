@@ -8,6 +8,7 @@ using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReflectionIT.Mvc.Paging;
 
 namespace MassageSalon.WEB.Controllers
 {
@@ -22,16 +23,18 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var offers = _offerService.GetAll();
-            return View(_mapper.Map<IEnumerable<Offer>,IEnumerable<OfferModel>>(offers));
+            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(_offerService.GetAll());
+            var offers = PagingList.Create(qry, 2, page);
+            return View(offers);
         }
         [AllowAnonymous]
-        public IActionResult Search(string search)
+        public IActionResult Search(string search, int page = 1)
         {
-            var offers = _offerService.Search(search);
-            return View("Index", _mapper.Map<IEnumerable<OfferModel>>(offers));
+            var qry = _mapper.Map<IEnumerable<OfferModel>>(_offerService.Search(search));
+            var offers = PagingList.Create(qry, 2, page);
+            return View("Index", offers );
         }
     }
 }
