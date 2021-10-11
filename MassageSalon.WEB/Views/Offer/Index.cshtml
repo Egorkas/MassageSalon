@@ -1,8 +1,12 @@
-﻿@model IEnumerable<MassageSalon.WEB.Models.OfferModel>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<OfferModel>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
 @{
     ViewData["Title"] = "Offers";
 }
-
+@*@{ 
+    IEnumerable<OfferModel> offers = Model as IEnumerable<OfferModel>;
+}*@
 @{if (User.IsInRole("admin"))
         @using (Html.BeginForm("Add", "Offer", FormMethod.Get))
         {
@@ -11,12 +15,15 @@
             </div>
         }
 }
+<nav aria-label="Suppliers navigation example">
+    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+</nav>
 @await Html.PartialAsync("Search")
 
 <div class="d-flex justify-content-start flex-row flex-wrap">
     @foreach (var offer in Model.OrderBy(s => s.Price))
     {
-        <div class="card border-dark mb-3"  style="width: 18rem;">
+        <div class="card border-dark mb-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">@offer.Title</h5>
                 <p class="card-text">@offer.Description</p>
@@ -30,7 +37,7 @@
 
                 @{if (User.IsInRole("admin"))
                     {
-                        <a  class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Offer", offer)'">Edit</a>
+                        <a class="fas fa-edit" onclick="location.href='@Url.Action("Edit", "Offer", offer)'">Edit</a>
                         @using (Html.BeginForm("Delete", "Masseurs", new { Id = offer.Id }, FormMethod.Post))
                         {
                             <button type="submit"><i class="fas fa-trash"></i></button>
@@ -41,4 +48,7 @@
 
         </div>
     }
+    <nav aria-label="Suppliers navigation example">
+        <vc:pager paging-list="@Model" />
+    </nav>
 </div>
