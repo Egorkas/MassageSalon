@@ -10,6 +10,7 @@ namespace MassageSalon.BLL.Interfaces
         Offer GetById(int id);
         IEnumerable<Offer> GetAll();
         Offer Get(Func<Offer, bool> predicate);
+        IEnumerable<Offer> Search(string search);
         void Update(Offer offer);
         void Create(Offer offer);
         void Delete(int id);

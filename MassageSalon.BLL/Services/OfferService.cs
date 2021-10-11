@@ -1,4 +1,5 @@
-﻿using MassageSalon.BLL.Interfaces;
+﻿using MassageSalon.BLL.Extensions;
+using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.DAL.Common.Interfaces;
 using System;
@@ -24,6 +25,14 @@ namespace MassageSalon.BLL.Services
         public IEnumerable<Offer> GetAll() => _repository.GetAll();
 
         public Offer GetById(int id) => _repository.Get(id);
+
+        public IEnumerable<Offer> Search(string search)
+        {
+            return _repository.Find(s =>
+                s.Title.Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase) ||
+                s.Description.Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase) ||
+                s.Price.ToString().Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase));
+        }
 
         public void Update(Offer offer) => _repository.Update(offer);
     }
