@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
+using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace MassageSalon.WEB.Controllers
             return View(offers);
         }
         [AllowAnonymous]
+        [CustomExceptionFilter]
         public IActionResult Search(string search, int page = 1)
         {
             var qry = _mapper.Map<IEnumerable<OfferModel>>(_offerService.Search(search));
