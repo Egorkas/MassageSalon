@@ -27,12 +27,7 @@ namespace MassageSalon.BLL.Services
 
         public Record GetById(int id) => _repository.Get(id);
 
-        public Record IsExists(int masseurId, DateTime date)
-        {
-            var record = _repository.Find(x => x.MasseurId == masseurId && (x.TimeRecord >= date || (x.TimeRecord.AddHours(1) > date && x.TimeRecord.AddHours(-1) < date))).FirstOrDefault();
-
-            return record;
-        }
+        public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && x.TimeRecord == date).FirstOrDefault();
 
         public void Update(Record record) => _repository.Update(record);
 
