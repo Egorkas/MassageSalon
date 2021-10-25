@@ -24,9 +24,9 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [AllowAnonymous]
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(_offerService.GetAll());
+            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(await _offerService.GetAllAsync());
             var offers = PagingList.Create(qry, 2, page);
             return View(offers);
         }

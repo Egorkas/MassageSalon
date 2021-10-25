@@ -51,7 +51,7 @@ namespace MassageSalon.WEB.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public IActionResult Edit(MasseurModel masseur, IFormFile titleImageFile)
+        public async Task<IActionResult> Edit(MasseurModel masseur, IFormFile titleImageFile)
         {
             if (ModelState.IsValid)
             {
@@ -60,15 +60,15 @@ namespace MassageSalon.WEB.Controllers
                     masseur.TitleImagePath = titleImageFile.FileName;
                     using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, "images/ProfilesPhoto/", titleImageFile.FileName), FileMode.Create))
                     {
-                        titleImageFile.CopyTo(stream);
+                        await titleImageFile.CopyToAsync(stream);
                     }
                 }
                 else masseur.TitleImagePath = "user_profile.jpg";
                 if (masseur.Id == 0)
                 {
-                    _masseurService.Create(_mapper.Map<Masseur>(masseur));
+                    await _masseurService.CreateAsync(_mapper.Map<Masseur>(masseur));
                 }else
-                _masseurService.Update(_mapper.Map<Masseur>(masseur));
+                await _masseurService.UpdateAsync(_mapper.Map<Masseur>(masseur));
                 return RedirectToAction("Index");
             }
 
@@ -77,10 +77,10 @@ namespace MassageSalon.WEB.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
 
-            _masseurService.Delete(id);
+            await _masseurService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
     }
