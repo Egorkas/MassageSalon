@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Services
 {
@@ -15,21 +16,17 @@ namespace MassageSalon.BLL.Services
         {
             _repository = repository;
         }
-        public void Create(Record record)
-        {
-            _repository.Create(record);
-        }
-
+        public async Task CreateAsync(Record record) => await _repository.CreateAsync(record);
         public Record Get(Func<Record, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
         public IEnumerable<Record> GetWithInclude() =>
             _repository.GetWithInclude(m => m.Masseur, v => v.Visitor, o => o.Offer);
-        public IEnumerable<Record> GetAll() => _repository.GetAll();
+        public async Task<IEnumerable<Record>> GetAllAsync() => await _repository.GetAllAsync();
 
-        public Record GetById(int id) => _repository.Get(id);
+        public async Task<Record> GetByIdAsync(int id) => await _repository.GetAsync(id);
 
         public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && x.TimeRecord == date).FirstOrDefault();
 
-        public void Update(Record record) => _repository.Update(record);
+        public async Task UpdateAsync(Record record) => await _repository.UpdateAsync(record);
 
     }
 }
