@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Services
 {
@@ -21,10 +22,7 @@ namespace MassageSalon.BLL.Services
             return null;
         }
 
-        public IEnumerable<Log> GetAllLogs()
-        {
-            return _repository.GetAll();
-        }
+        public async Task<IEnumerable<Log>> GetAllLogsAsync() => await _repository.GetAllAsync();
 
         public bool IsEnabled(LogLevel logLevel)
         {
@@ -34,7 +32,7 @@ namespace MassageSalon.BLL.Services
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             var log = new Log { Level = logLevel, Time = DateTime.Now, Message = formatter(state, exception) };
-            _repository.Create(log);
+            _repository.CreateAsync(log);
         }
     }
 }

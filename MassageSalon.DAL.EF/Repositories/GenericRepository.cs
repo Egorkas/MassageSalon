@@ -19,7 +19,7 @@ namespace MassageSalon.DAL.EF.Repositories
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
-        public async Task Create(TEntity item)
+        public async Task CreateAsync(TEntity item)
         {
             if (item == null)
             {
@@ -29,7 +29,7 @@ namespace MassageSalon.DAL.EF.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var item = await _dbSet.FindAsync(id);
             _dbSet.Remove(item);
@@ -41,7 +41,7 @@ namespace MassageSalon.DAL.EF.Repositories
             return _dbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
         }
 
-        public async Task Update(TEntity item)
+        public async Task UpdateAsync(TEntity item)
         {
             _context.Entry(item).State = EntityState.Modified;
              await _context.SaveChangesAsync();

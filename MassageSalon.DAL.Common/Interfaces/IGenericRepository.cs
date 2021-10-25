@@ -11,9 +11,9 @@ namespace MassageSalon.DAL.Common.Interfaces
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> GetAsync(int id);
         IEnumerable<TEntity> Find(Func<TEntity, bool> predicate);
-        Task Create(TEntity item);
-        Task Update(TEntity item);
-        Task Delete(int id);    
+        Task CreateAsync(TEntity item);
+        Task UpdateAsync(TEntity item);
+        Task DeleteAsync(int id);    
         IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
         public Task<int> GetCountAsync();
     }
