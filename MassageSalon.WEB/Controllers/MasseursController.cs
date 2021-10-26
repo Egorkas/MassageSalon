@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,7 @@ namespace MassageSalon.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            Logger.LogInformation("Get request for masseursGet All");
             var masseurs = _masseurService.GetWithInclude();
             return View(_mapper.Map<IEnumerable<MasseurModel>>(masseurs));
         }
@@ -67,11 +69,12 @@ namespace MassageSalon.WEB.Controllers
                 if (masseur.Id == 0)
                 {
                     await _masseurService.CreateAsync(_mapper.Map<Masseur>(masseur));
+                    Logger.LogInformation("Create new model of masseur");
                 }else
                 await _masseurService.UpdateAsync(_mapper.Map<Masseur>(masseur));
                 return RedirectToAction("Index");
             }
-
+            Logger.LogInformation("Model for edit masseurs isn't valid");
             return View(masseur);
         }
 
