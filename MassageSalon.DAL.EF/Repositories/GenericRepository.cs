@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.DAL.EF.Repositories
 {
@@ -18,21 +19,21 @@ namespace MassageSalon.DAL.EF.Repositories
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
-        public void Create(TEntity item)
+        public async Task CreateAsync(TEntity item)
         {
             if (item == null)
             {
                 throw new ArgumentNullException("item");
             }
-            _dbSet.Add(item);
-            _context.SaveChanges();
+            await _dbSet.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var item = _dbSet.Find(id);
+            var item = await _dbSet.FindAsync(id);
             _dbSet.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<TEntity> Find(Func<TEntity, bool> predicate)
@@ -40,20 +41,10 @@ namespace MassageSalon.DAL.EF.Repositories
             return _dbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
         }
 
-        public TEntity Get(int id)
-        {
-            return _dbSet.Find(id);
-        }
-
-        public IEnumerable<TEntity> GetAll()
-        {
-            return _dbSet.AsNoTracking().AsEnumerable().ToList();
-        }
-
-        public void Update(TEntity item)
+        public async Task UpdateAsync(TEntity item)
         {
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+             await _context.SaveChangesAsync();
         }
 
         public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
@@ -67,5 +58,11 @@ namespace MassageSalon.DAL.EF.Repositories
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+
+        public async Task<TEntity> GetAsync(int id) => await _dbSet.FindAsync(id);
+
+        public async Task<int> GetCountAsync() => await _dbSet.CountAsync();
     }
 }
