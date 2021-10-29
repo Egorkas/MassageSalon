@@ -4,6 +4,7 @@ using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Services
 {
@@ -16,21 +17,18 @@ namespace MassageSalon.BLL.Services
             _repository = repository;
         }
 
-        public void Create(Visitor visitor) =>
-            _repository.Create(visitor);
+        public async Task CreateAsync(Visitor visitor) =>
+            await _repository.CreateAsync(visitor);
 
-        public void Delete(int id)
-        {
-            _repository.Delete(id);
-        }
+        public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
         public Visitor Get(Func<Visitor, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
 
-        public IEnumerable<Visitor> GetAll() =>
-            _repository.GetAll();
+        public async Task<IEnumerable<Visitor>> GetAllAsync() =>
+            await _repository.GetAllAsync();
 
-        public Visitor GetById(int id) =>
-            _repository.Get(id);
+        public async Task<Visitor> GetByIdAsync(int id) =>
+            await _repository.GetAsync(id);
 
         public Visitor GetWithInclude()
         {
@@ -43,7 +41,7 @@ namespace MassageSalon.BLL.Services
             return visitors.FirstOrDefault(user => user.Id == id);
         }
 
-        public void Update(Visitor visitor) =>
-            _repository.Update(visitor);
+        public async Task UpdateAsync(Visitor visitor) =>
+            await _repository.UpdateAsync(visitor);
     }
 }

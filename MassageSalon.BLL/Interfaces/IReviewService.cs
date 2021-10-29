@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Interfaces
 {
     public interface IReviewService
     {
-        void Create(Review Review);
-        Review GetById(int id);
+        Task CreateAsync(Review Review);
+        Task<Review> GetByIdAsync(int id);
         IEnumerable<Review> GetAll();
-        void Update(Review Review);
+        Task UpdateAsync(Review Review);
     }
 }
