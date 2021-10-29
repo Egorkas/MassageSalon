@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
+using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
 using MassageSalon.WEB.Validators;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,9 @@ namespace MassageSalon.WEB.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOfferService _offerService;
         private readonly IMapper _mapper;
-        public RecordController(IMasseurService masseurService, IRecordService recordService, IMapper mapper,IVisitorService visitorService, IOfferService offerService, IHttpContextAccessor httpContextAccessor)
+        public RecordController(IMasseurService masseurService, IRecordService recordService
+                                , IMapper mapper,IVisitorService visitorService
+                                , IOfferService offerService, IHttpContextAccessor httpContextAccessor)
         {
             _masseurService = masseurService;
             _recordService = recordService;
@@ -48,17 +51,18 @@ namespace MassageSalon.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateRecord()
+        public async Task<IActionResult> CreateRecord()
         {
             ViewData["Title"] = "Record";
-            var masseurs = _masseurService.GetAll();
-            var offers = _offerService.GetAll();
+            var masseurs = await _masseurService.GetAllAsync();
+            var offers = await _offerService.GetAllAsync();
             ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
             ViewData["Offers"] = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(offers);
             return View();
         }
         [HttpPost]
-        public IActionResult CreateRecord(RecordModel recordModel)
+        [CustomExceptionFilter]
+        public async Task<IActionResult> CreateRecord(RecordModel recordModel)
         {
 
             if (!ModelState.IsValid)
@@ -72,8 +76,8 @@ namespace MassageSalon.WEB.Controllers
             {
                 Logger.LogInformation("Model isn't valid");
                 ViewData["Title"] = "Sorry, this record exist";
-                var masseurs = _masseurService.GetAll();
-                var offers = _offerService.GetAll();
+                var masseurs = await _masseurService.GetAllAsync();
+                var offers = await _offerService.GetAllAsync();
                 ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
                 ViewData["Offers"] = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(offers);
                 return View(recordModel);
@@ -89,7 +93,7 @@ namespace MassageSalon.WEB.Controllers
                 Detail = recordModel.Detail
             };
 
-            _recordService.Create(_mapper.Map<Record>(record));
+            await _recordService.CreateAsync(_mapper.Map<Record>(record));
             return RedirectToAction("Index");
         }
     }

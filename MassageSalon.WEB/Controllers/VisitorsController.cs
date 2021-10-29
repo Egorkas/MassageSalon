@@ -29,11 +29,11 @@ namespace MassageSalon.WEB.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (User.IsInRole("admin"))
             {
-                var visitor = _service.GetAll();
+                var visitor = await _service.GetAllAsync();
                 Logger.LogInformation("Admin get all visitors");
                 return View(_mapper.Map<IEnumerable<VisitorModel>>(visitor));
             }
@@ -51,15 +51,15 @@ namespace MassageSalon.WEB.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Edit(int id)
+        public async  Task<IActionResult> Edit(int id)
         {
-            var visitor = _service.GetById(id);
+            var visitor = await _service.GetByIdAsync(id);
             return View(_mapper.Map<VisitorModel>(visitor));
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Edit(VisitorModel visitor)
+        public async Task<IActionResult> Edit(VisitorModel visitor)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace MassageSalon.WEB.Controllers
                 if (ModelState.IsValid)
                 {
                     visitor.Id = _service.Get(x => x.Login == visitor.Login).Id;
-                    _service.Update(_mapper.Map<Visitor>(visitor));
+                    await _service.UpdateAsync(_mapper.Map<Visitor>(visitor));
                     return RedirectToAction("Index");
                 }
                 return View(visitor);
@@ -81,14 +81,15 @@ namespace MassageSalon.WEB.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_service.GetById(id).RoleId == 1)
+            var visitor = await _service.GetByIdAsync(id);
+            if (visitor.RoleId == 1)
             {
                 Logger.LogInformation("Can't delete visitor with admin rules");
                 return RedirectToAction("Index");
             }
-            _service.Delete(id);
+            await _service.DeleteAsync(id);
             Logger.LogInformation($"Visitor with id = {id} has been deleted!");
             return RedirectToAction("Index");
         }

@@ -23,13 +23,13 @@ namespace MassageSalon.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Masseur>> GetAll()
         {
-            return Ok(_service.GetAll());
+            return Ok(_service.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Masseur> Get(int id)
         {
-            var Masseur = _service.GetById(id);
+            var Masseur = _service.GetByIdAsync(id);
 
             if (Masseur == null)
                 NotFound();
@@ -41,7 +41,7 @@ namespace MassageSalon.WebApi.Controllers
         {
             if (Masseur == null)
                 BadRequest();
-            _service.Create(Masseur);
+            _service.CreateAsync(Masseur);
             return Ok(Masseur);
         }
 
@@ -52,24 +52,24 @@ namespace MassageSalon.WebApi.Controllers
             {
                 BadRequest();
             }
-            if (_service.GetById(Masseur.Id) == null)
+            if (_service.GetByIdAsync(Masseur.Id) == null)
             {
                 NotFound();
             }
 
-            _service.Update(Masseur);
+            _service.UpdateAsync(Masseur);
             return Ok(Masseur);
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
-            var Masseur = _service.GetById(id);
+            var Masseur = _service.GetByIdAsync(id);
             if (Masseur == null)
             {
                 NotFound();
             }
-            _service.Delete(id);
+            _service.DeleteAsync(id);
         }
     }
 }

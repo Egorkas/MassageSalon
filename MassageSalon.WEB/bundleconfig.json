@@ -4,6 +4,8 @@
     "inputFiles": [
       "wwwroot/js/jquery.min.js",
       "wwwroot/js/jquery.dropotron.min.js",
+      "wwwroot/lib/jquery-datetimepicker/jquery.datetimepicker.js",
+      "wwwroot/lib/moment.js/moment.js",
       "wwwroot/js/breakpoints.min.js",
       "wwwroot/js/browser.min.js",
       "wwwroot/js/main.js",

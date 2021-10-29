@@ -5,6 +5,7 @@ using MassageSalon.DAL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Services
 {
@@ -17,16 +18,15 @@ namespace MassageSalon.BLL.Services
             _repository = repository;
         }
 
-        public void Create(Review review) =>
-            _repository.Create(review);
+        public async Task CreateAsync(Review review) => await _repository.CreateAsync(review);
 
         public IEnumerable<Review> GetAll() =>
             _repository.GetWithInclude(m => m.Masseur, v => v.Visitor);
 
-        public Review GetById(int id) =>
-            _repository.Get(id);
+        public async Task<Review> GetByIdAsync(int id) =>
+            await _repository.GetAsync(id);
 
-        public void Update(Review review) =>
-            _repository.Update(review);
+        public async Task UpdateAsync(Review review) =>
+            await _repository.UpdateAsync(review);
     }
 }
