@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Services
 {
@@ -18,13 +19,9 @@ namespace MassageSalon.BLL.Services
             _repository = repository;
         }
 
-        public void Create(Masseur masseur) =>
-            _repository.Create(masseur);
+        public async Task CreateAsync(Masseur masseur) => await _repository.CreateAsync(masseur);
 
-        public void Delete(int id)
-        {
-            _repository.Delete(id);
-        }
+        public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
         public Masseur Get(Func<Masseur, bool> predicate)
         {
@@ -32,13 +29,10 @@ namespace MassageSalon.BLL.Services
         }
 
         public IEnumerable<Masseur> GetWithInclude() => _repository.GetWithInclude(x => x.Reviews);
-        public IEnumerable<Masseur> GetAll() =>
-            _repository.GetAll();
+        public async Task<IEnumerable<Masseur>> GetAllAsync() => await _repository.GetAllAsync();
 
-        public Masseur GetById(int id) =>
-            _repository.Get(id);
+        public async Task<Masseur> GetByIdAsync(int id) => await _repository.GetAsync(id);
 
-        public void Update(Masseur masseur) =>
-            _repository.Update(masseur);
+        public async Task UpdateAsync(Masseur masseur) => await _repository.UpdateAsync(masseur);
     }
 }

@@ -47,19 +47,19 @@ namespace MassageSalon.WEB.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit()
         {
-            IEnumerable<Masseur> masseurs = _masseurService.GetAll();
+            IEnumerable<Masseur> masseurs = await _masseurService.GetAllAsync();
             ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
             return View();
         }
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(ReviewModel review)
+        public async Task<IActionResult> Edit(ReviewModel review)
         {
             if(!ModelState.IsValid)
             {
-                IEnumerable<Masseur> masseurs = _masseurService.GetAll();
+                IEnumerable<Masseur> masseurs = await _masseurService.GetAllAsync();
                 ViewData["Masseurs"] = _mapper.Map<IEnumerable<Masseur>, IEnumerable<MasseurModel>>(masseurs);
 
                 return View(review);
@@ -68,7 +68,7 @@ namespace MassageSalon.WEB.Controllers
            
             review.VisitorId = _visitorService.Get(v => v.Login == User.Identity.Name).Id;
 
-            _reviewService.Create(_mapper.Map<ReviewModel, Review>(review));
+            await _reviewService.CreateAsync(_mapper.Map<ReviewModel, Review>(review));
             ViewBag.Message = "Success add review. Thanks for your attention";
             return RedirectToAction("Index", "Reviews");
         }

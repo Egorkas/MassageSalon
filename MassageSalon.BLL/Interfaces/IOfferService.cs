@@ -2,17 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MassageSalon.BLL.Interfaces
 {
     public interface IOfferService
     {
-        Offer GetById(int id);
-        IEnumerable<Offer> GetAll();
+        Task<Offer> GetByIdAsync(int id);
+        Task<IEnumerable<Offer>> GetAllAsync();
         Offer Get(Func<Offer, bool> predicate);
         IEnumerable<Offer> Search(string search);
-        void Update(Offer offer);
-        void Create(Offer offer);
-        void Delete(int id);
+        Task UpdateAsync(Offer offer);
+        Task CreateAsync(Offer offer);
+        Task DeleteAsync(int id);
     }
 }

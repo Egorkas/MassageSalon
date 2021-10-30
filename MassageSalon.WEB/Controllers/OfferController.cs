@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
+using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +24,14 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [AllowAnonymous]
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(_offerService.GetAll());
+            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(await _offerService.GetAllAsync());
             var offers = PagingList.Create(qry, 2, page);
             return View(offers);
         }
         [AllowAnonymous]
+        [CustomExceptionFilter]
         public IActionResult Search(string search, int page = 1)
         {
             var qry = _mapper.Map<IEnumerable<OfferModel>>(_offerService.Search(search));
