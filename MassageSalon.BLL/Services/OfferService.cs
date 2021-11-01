@@ -17,6 +17,18 @@ namespace MassageSalon.BLL.Services
         {
             _repository = repository;
         }
+
+        public IEnumerable<Offer> AdvancedSearch(Offer srchOffer)
+        {
+            Func<Offer, bool> predicate = (s => (
+            (srchOffer.Title == null || s.Title.Contains(srchOffer.Title)) &&
+            (srchOffer.Description == null || s.Description.Contains(srchOffer.Description) &&
+            (srchOffer.Price == 0 || ((srchOffer.Price + 5) >= s.Price && (srchOffer.Price - 5) <= s.Price ))
+            )));
+
+            return _repository.Find(predicate);
+        }
+
         public async Task CreateAsync(Offer offer) => await _repository.CreateAsync(offer);
 
         public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
@@ -34,7 +46,6 @@ namespace MassageSalon.BLL.Services
                 s.Description.Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase) ||
                 s.Price.ToString().Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase));
         }
-
         public async Task UpdateAsync(Offer offer) => await _repository.UpdateAsync(offer);
     }
 }

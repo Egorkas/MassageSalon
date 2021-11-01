@@ -12,6 +12,7 @@ namespace MassageSalon.BLL.Interfaces
         Task<IEnumerable<Offer>> GetAllAsync();
         Offer Get(Func<Offer, bool> predicate);
         IEnumerable<Offer> Search(string search);
+        IEnumerable<Offer> AdvancedSearch(Offer srchOffer);
         Task UpdateAsync(Offer offer);
         Task CreateAsync(Offer offer);
         Task DeleteAsync(int id);
