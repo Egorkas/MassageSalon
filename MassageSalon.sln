@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.DAL.EF", "Mass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassageSalon.WebApi", "MassageSalon.WebApi\MassageSalon.WebApi.csproj", "{EB577DEB-8980-4586-8D27-8B881BA9C4E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassageSalon.Test", "MassageSalon.Test\MassageSalon.Test.csproj", "{CFAE20F5-9231-4B0B-BD36-3903F7DE2CDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB577DEB-8980-4586-8D27-8B881BA9C4E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFAE20F5-9231-4B0B-BD36-3903F7DE2CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFAE20F5-9231-4B0B-BD36-3903F7DE2CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFAE20F5-9231-4B0B-BD36-3903F7DE2CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFAE20F5-9231-4B0B-BD36-3903F7DE2CDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
