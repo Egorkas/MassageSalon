@@ -39,6 +39,8 @@ namespace MassageSalon.BLL.Services
 
         public async Task<Offer> GetByIdAsync(int id) => await _repository.GetAsync(id);
 
+        public async Task<int> GetCountAsync() => await _repository.GetCountAsync();
+        public IEnumerable<Offer> GetRange(int skipPos = 0, int count = 3) => _repository.GetRange(skipPos, count);
         public IEnumerable<Offer> Search(string search)
         {
             return _repository.Find(s =>
@@ -47,5 +49,6 @@ namespace MassageSalon.BLL.Services
                 s.Price.ToString().Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase));
         }
         public async Task UpdateAsync(Offer offer) => await _repository.UpdateAsync(offer);
+
     }
 }

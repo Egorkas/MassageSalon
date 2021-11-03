@@ -16,5 +16,7 @@ namespace MassageSalon.BLL.Interfaces
         Task UpdateAsync(Offer offer);
         Task CreateAsync(Offer offer);
         Task DeleteAsync(int id);
+        public IEnumerable<Offer> GetRange(int skipPos = 0, int count = 3);
+        Task<int> GetCountAsync();
     }
 }
