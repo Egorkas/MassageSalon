@@ -40,10 +40,8 @@ namespace MassageSalon.WEB.Controllers
             return View(viewModel);
         }
 
-        //public IActionResult IndexForSearch()
-        //{
-
-        //}
+        
+        
         [AllowAnonymous]
         [CustomExceptionFilter]
         [HttpPost]
@@ -59,6 +57,14 @@ namespace MassageSalon.WEB.Controllers
                     _offerService.Search(search))
             };
             return View("Index",viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            await _offerService.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

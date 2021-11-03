@@ -96,5 +96,12 @@ namespace MassageSalon.WEB.Controllers
             await _recordService.CreateAsync(_mapper.Map<Record>(record));
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _recordService.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }

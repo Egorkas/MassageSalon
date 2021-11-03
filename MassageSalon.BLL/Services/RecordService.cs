@@ -27,6 +27,7 @@ namespace MassageSalon.BLL.Services
         public Record IsExists(int masseurId, DateTime date) => _repository.Find(x => x.MasseurId == masseurId && x.TimeRecord == date).FirstOrDefault();
 
         public async Task UpdateAsync(Record record) => await _repository.UpdateAsync(record);
+        public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
     }
 }

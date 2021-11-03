@@ -15,5 +15,6 @@ namespace MassageSalon.BLL.Interfaces
         Record IsExists(int masseurId, DateTime date);
         Record Get(Func<Record, bool> predicate);
         IEnumerable<Record> GetWithInclude();
+        Task DeleteAsync(int id);
     }
 }
