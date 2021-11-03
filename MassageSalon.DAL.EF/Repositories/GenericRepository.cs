@@ -64,5 +64,8 @@ namespace MassageSalon.DAL.EF.Repositories
         public async Task<TEntity> GetAsync(int id) => await _dbSet.FindAsync(id);
 
         public async Task<int> GetCountAsync() => await _dbSet.CountAsync();
+
+        public IEnumerable<TEntity> GetRange(int skipPos = 0, int count = 3) => _dbSet.AsNoTracking().Skip(skipPos).Take(count);
+        
     }
 }
