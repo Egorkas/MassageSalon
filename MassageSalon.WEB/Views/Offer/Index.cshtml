@@ -1,12 +1,9 @@
-﻿@model ReflectionIT.Mvc.Paging.PagingList<OfferModel>
-@using ReflectionIT.Mvc.Paging
+﻿@model MassageSalon.WEB.Models.PageModel.ViewPageModel<OfferModel>
 @addTagHelper *, ReflectionIT.Mvc.Paging
 @{
     ViewData["Title"] = "Offers";
 }
-@*@{ 
-    IEnumerable<OfferModel> offers = Model as IEnumerable<OfferModel>;
-}*@
+
 @{if (User.IsInRole("admin"))
         @using (Html.BeginForm("Add", "Offer", FormMethod.Get))
         {
@@ -15,13 +12,10 @@
             </div>
         }
 }
-<nav aria-label="Suppliers navigation example">
-    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
-</nav>
 @await Html.PartialAsync("Search")
 
 <div class="d-flex justify-content-start flex-row flex-wrap">
-    @foreach (var offer in Model.OrderBy(s => s.Price))
+    @foreach (var offer in Model.Collection)
     {
         <div class="card border-dark mb-3" style="width: 18rem;">
             <div class="card-body">
@@ -48,7 +42,30 @@
 
         </div>
     }
-    <nav aria-label="Suppliers navigation example">
-        <vc:pager paging-list="@Model" />
-    </nav>
+    <div class="d-flex justify-content-center flex-row">
+        <div>
+            @if (Model.PageModel.HasPreviousPage)
+            {
+                <a asp-action="Index"
+                   asp-route-pageSize=""
+                   asp-route-page="@(Model.PageModel.PageNumber - 1)"
+                   class="btn btn-primary"
+                   style="margin: 5px;">
+                    Prev
+                </a>
+            }
+        </div>
+        <div>
+            @if (Model.PageModel.HasNextPage)
+            {
+                <a asp-action="Index"
+                   asp-route-pageSize=""
+                   asp-route-page="@(Model.PageModel.PageNumber + 1)"
+                   class="btn btn-primary"
+                   style="margin: 5px;">
+                    Next
+                </a>
+            }
+        </div>
+    </div>
 </div>

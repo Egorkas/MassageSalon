@@ -7,7 +7,7 @@ namespace MassageSalon.WEB.Models.PageModel
 {
     public class ViewPageModel<Entity> where Entity : class
     {
-        public IEnumerable<Entity> Users { get; set; }
+        public IEnumerable<Entity> Collection{ get; set; }
         public PageModel PageModel { get; set; }
     }
 }
