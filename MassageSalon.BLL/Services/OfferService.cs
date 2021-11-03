@@ -23,8 +23,8 @@ namespace MassageSalon.BLL.Services
             Func<Offer, bool> predicate = (s => (
             (srchOffer.Title == null || s.Title.Contains(srchOffer.Title)) &&
             (srchOffer.Description == null || s.Description.Contains(srchOffer.Description) &&
-            (srchOffer.Price == 0 || ((srchOffer.Price + 5) >= s.Price && (srchOffer.Price - 5) <= s.Price ))
-            )));
+            (srchOffer.Price == 0 || s.Price.Equals(srchOffer.Price) ))
+            ));
 
             return _repository.Find(predicate);
         }
