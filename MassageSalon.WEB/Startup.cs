@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MassageSalon.BLL.EmailSender;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.BLL.Services;
 using MassageSalon.DAL.Common.Entities;
@@ -54,6 +55,7 @@ namespace MassageSalon.WEB
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ILoggerService, LoggerService>();
             services.AddScoped<IOfferService, OfferService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddHttpContextAccessor();
 

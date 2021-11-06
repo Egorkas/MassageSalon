@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MassageSalon.BLL.EmailSender;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Filters;
@@ -25,9 +26,10 @@ namespace MassageSalon.WEB.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOfferService _offerService;
         private readonly IMapper _mapper;
+        private readonly IEmailService _mail;
         public RecordController(IMasseurService masseurService, IRecordService recordService
                                 , IMapper mapper,IVisitorService visitorService
-                                , IOfferService offerService, IHttpContextAccessor httpContextAccessor)
+                                , IOfferService offerService, IHttpContextAccessor httpContextAccessor, IEmailService mail)
         {
             _masseurService = masseurService;
             _recordService = recordService;
@@ -35,6 +37,7 @@ namespace MassageSalon.WEB.Controllers
             _offerService = offerService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _mail = mail;
         }
         [HttpGet]
         public ActionResult Index()
@@ -82,18 +85,19 @@ namespace MassageSalon.WEB.Controllers
                 ViewData["Offers"] = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(offers);
                 return View(recordModel);
             }
-            var visitor = _visitorService.Get(x => x.Login == User.Identity.Name).Id;
+            var visitor = _visitorService.Get(x => x.Login == User.Identity.Name);
             
             var record = new RecordModel()
             {
                 TimeRecord = recordModel.TimeRecord,
                 MasseurId = recordModel.MasseurId,
-                VisitorId = visitor,
+                VisitorId = visitor.Id,
                 OfferId = recordModel.OfferId,
                 Detail = recordModel.Detail
             };
 
             await _recordService.CreateAsync(_mapper.Map<Record>(record));
+            await _mail.SendEmailAsync(visitor.Login, "Record to Massage", visitor.Name, recordModel.TimeRecord.ToString());
             return RedirectToAction("Index");
         }
 
