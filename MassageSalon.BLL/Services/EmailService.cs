@@ -19,7 +19,8 @@ namespace MassageSalon.BLL.EmailSender
             mimeMessage.Subject = subject;
             mimeMessage.Body = new TextPart(TextFormat.Html)
             {
-                Text = $"<b>Dear {name}  </b>"
+                Text = $"<b>Dear {name}. You have an appoitment for massage at {date}, thank you for choosing us.</b>" +
+                $"<a></a>"
             };
 
             using (var client = new SmtpClient())
