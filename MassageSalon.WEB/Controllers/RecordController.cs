@@ -97,7 +97,6 @@ namespace MassageSalon.WEB.Controllers
 
             await _recordService.CreateAsync(_mapper.Map<Record>(record));
             await _mail.SendEmailAsync(visitor.Login, "Record to Massage", visitor.Name, recordModel.TimeRecord.ToString());
-            var mailForHour = new HangFire(_recordService, _visitorService, _mail);
             return RedirectToAction("Index");
         }
 
