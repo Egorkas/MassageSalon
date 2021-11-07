@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hangfire;
 using MassageSalon.BLL.EmailSender;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.BLL.Services;
@@ -11,6 +12,7 @@ using MassageSalon.DAL.Common.Entities;
 using MassageSalon.DAL.Common.Interfaces;
 using MassageSalon.DAL.EF.Contexts;
 using MassageSalon.DAL.EF.Repositories;
+using MassageSalon.WEB.Controllers;
 using MassageSalon.WEB.Mapper;
 using MassageSalon.WEB.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -37,6 +39,9 @@ namespace MassageSalon.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(h => 
+                h.UseSqlServerStorage("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MassageSalonNotificationServiceDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddHangfireServer();
             Configuration.Bind("Project", new Config());
 
             services.AddDbContext<MassageSalonContext>(options => options.UseSqlServer(DbConnector.GetConnectionOptions()));
@@ -76,7 +81,13 @@ namespace MassageSalon.WEB
             services.AddControllersWithViews();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env , ILoggerFactory loggerFactory)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory,
+            IRecurringJobManager jobManager,
+            IRecordService record,
+            IEmailService mail)
         {
             if (env.IsDevelopment())
             {
@@ -93,6 +104,9 @@ namespace MassageSalon.WEB
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHangfireDashboard("/dashboard");
+            jobManager.AddOrUpdate("SendOneHourBefore",() => new HangFire(record, mail).Reccuring(), "*/30 * * * *");
 
             app.UseEndpoints(endpoints =>
             {

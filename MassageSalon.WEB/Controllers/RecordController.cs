@@ -8,11 +8,10 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
-using MassageSalon.WEB.Validators;
+using MassageSalon.WEB.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace MassageSalon.WEB.Controllers
@@ -98,6 +97,7 @@ namespace MassageSalon.WEB.Controllers
 
             await _recordService.CreateAsync(_mapper.Map<Record>(record));
             await _mail.SendEmailAsync(visitor.Login, "Record to Massage", visitor.Name, recordModel.TimeRecord.ToString());
+            var mailForHour = new HangFire(_recordService, _visitorService, _mail);
             return RedirectToAction("Index");
         }
 
