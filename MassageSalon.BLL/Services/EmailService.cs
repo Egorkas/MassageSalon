@@ -25,6 +25,7 @@ namespace MassageSalon.BLL.EmailSender
 
             using (var client = new SmtpClient())
             {
+                client.CheckCertificateRevocation = false;
                 await client.ConnectAsync(EmailConstants.SmtpHost, EmailConstants.SmtpPort, false);
                 await client.AuthenticateAsync(EmailConstants.SenderEmail, EmailConstants.EmailPassword);
                 await client.SendAsync(mimeMessage);

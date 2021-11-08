@@ -11,7 +11,6 @@ namespace MassageSalon.WEB.Utils
     public class HangFire
     {
         private readonly IRecordService _record;
-        private readonly IVisitorService _visitor;
         private readonly IEmailService _mail;
         public HangFire(IRecordService record, IEmailService mail)
         {
