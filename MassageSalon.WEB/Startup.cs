@@ -62,6 +62,7 @@ namespace MassageSalon.WEB
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<IEmailService, EmailService>();
 
+
             services.AddHttpContextAccessor();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -86,8 +87,8 @@ namespace MassageSalon.WEB
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory,
             IRecurringJobManager jobManager,
-            IRecordService record,
-            IEmailService mail)
+            IEmailService mail,
+            IRecordService record)
         {
             if (env.IsDevelopment())
             {
@@ -106,7 +107,7 @@ namespace MassageSalon.WEB
             app.UseAuthorization();
 
             app.UseHangfireDashboard("/dashboard");
-            jobManager.AddOrUpdate("SendOneHourBefore",() => new HangFire(record, mail).Reccuring(), "*/30 * * * *");
+            jobManager.AddOrUpdate("SendOneHourBefore",() => new HangFireService(record, mail).Reccuring(), "*/30 * * * *");
 
             app.UseEndpoints(endpoints =>
             {
