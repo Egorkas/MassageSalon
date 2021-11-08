@@ -37,11 +37,14 @@ namespace MassageSalon.BLL.Services
         {
             var predicate = new Func<Record, bool>((r) =>
             (masseurName == null || r.Masseur.Name.Contains(masseurName)) &&
-            (minDate == DateTime.Now || r.TimeRecord >= minDate) &&
-            (maxDate == DateTime.Now || r.TimeRecord <= maxDate)
+            (minDate == default || r.TimeRecord >= minDate) &&
+            (maxDate == default || r.TimeRecord <= maxDate)
             );
 
-            return _repository.Find(predicate);
+            var records = _repository.Find(predicate);
+            var allRecords = _repository.GetWithInclude(m => m.Masseur, v => v.Visitor, o => o.Offer);
+
+            return allRecords.Intersect(records);
         }
     }
 }
