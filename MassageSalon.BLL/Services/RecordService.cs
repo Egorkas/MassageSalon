@@ -29,5 +29,19 @@ namespace MassageSalon.BLL.Services
         public async Task UpdateAsync(Record record) => await _repository.UpdateAsync(record);
         public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
+        public IEnumerable<Record> GetRange(int skipPos = 0, int count = 3) => _repository.GetRange(skipPos, count);
+
+        public Task<int> GetCountAsync() => _repository.GetCountAsync();
+
+        public IEnumerable<Record> AdvancedSearch(string masseurName, DateTime minDate, DateTime maxDate)
+        {
+            var predicate = new Func<Record, bool>((r) =>
+            (masseurName == null || r.Masseur.Name.Contains(masseurName)) &&
+            (minDate == DateTime.Now || r.TimeRecord >= minDate) &&
+            (maxDate == DateTime.Now || r.TimeRecord <= maxDate)
+            );
+
+            return _repository.Find(predicate);
+        }
     }
 }
