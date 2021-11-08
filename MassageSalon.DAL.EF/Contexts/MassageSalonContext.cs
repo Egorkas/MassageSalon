@@ -82,7 +82,7 @@ namespace MassageSalon.DAL.EF.Contexts
                 "and a silver medal in overall best massage at the World Championship in Massage 2021 competition in Copenhagen, Denmark.",
                 TitleImagePath = "Chaz.jpg"
             });
-
+            #endregion
 
             //add offers
             builder.Entity<Offer>().HasData(new Offer
