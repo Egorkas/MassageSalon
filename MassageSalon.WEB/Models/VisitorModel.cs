@@ -11,7 +11,7 @@ namespace MassageSalon.WEB.Models
         
         [Phone]
         public string PhoneNumber { get; set; }
-        [StringLength(20, ErrorMessage ="Login must be shorter than 20 symbols")]
+        [StringLength(40, ErrorMessage ="Login must be shorter than 40 symbols")]
         public string Login { get; set; }
         public string Password { get; set; }
 

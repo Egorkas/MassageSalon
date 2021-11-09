@@ -125,7 +125,11 @@ namespace MassageSalon.WEB.Controllers
             }
             
             Logger.LogInformation($"Successfully advanced search for records. Count - {records.Count()}");
-            return View("Index", records);
+            if (User.IsInRole("admin"))
+            {
+                return View("Index", records);
+            }
+            return View("Index", records.Where(r => r.Visitor.Login == User.Identity.Name));
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
