@@ -12,9 +12,11 @@ namespace MassageSalon.BLL.Services
     public class RecordService : IRecordService
     {
         private readonly IGenericRepository<Record> _repository;
-        public RecordService(IGenericRepository<Record> repository)
+        private readonly IGenericRepository<Masseur> _repositoryMasseur;
+        public RecordService(IGenericRepository<Record> repository, IGenericRepository<Masseur> repositoryMasseur)
         {
             _repository = repository;
+            _repositoryMasseur = repositoryMasseur;
         }
         public async Task CreateAsync(Record record) => await _repository.CreateAsync(record);
         public Record Get(Func<Record, bool> predicate) => _repository.Find(predicate).FirstOrDefault();
@@ -35,16 +37,26 @@ namespace MassageSalon.BLL.Services
 
         public IEnumerable<Record> AdvancedSearch(string masseurName, DateTime minDate, DateTime maxDate)
         {
-            var predicate = new Func<Record, bool>((r) =>
-            (masseurName == null || r.Masseur.Name.Contains(masseurName)) &&
-            (minDate == default || r.TimeRecord >= minDate) &&
-            (maxDate == default || r.TimeRecord <= maxDate)
-            );
+            Func<Record, bool> predicate;
+            if(masseurName == null)
+            {
+                predicate = new Func<Record, bool>((r) =>
+                 (minDate == default || r.TimeRecord >= minDate) &&
+                 (maxDate == default || r.TimeRecord <= maxDate)
+             );
+            }
+            else
+            {
+                var masseur = _repositoryMasseur.Find(m => m.Name.Contains(masseurName)).FirstOrDefault();
+                predicate = new Func<Record, bool>((r) =>
+                (masseur == null || r.MasseurId == masseur.Id) &&
+                (minDate == default || r.TimeRecord >= minDate) &&
+                (maxDate == default || r.TimeRecord <= maxDate)
+                );
+            }
+            
 
-            var records = _repository.Find(predicate);
-            var allRecords = _repository.GetWithInclude(m => m.Masseur, v => v.Visitor, o => o.Offer);
-
-            return allRecords.Intersect(records);
+            return _repository.Find(predicate);
         }
     }
 }
