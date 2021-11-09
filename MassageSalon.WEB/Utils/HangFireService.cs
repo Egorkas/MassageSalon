@@ -22,9 +22,11 @@ namespace MassageSalon.WEB.Utils
         }
         public void Reccuring()
         {
-            var records = _record.GetWithInclude().Where(r => r.TimeRecord.Hour >= DateTime.Now.AddHours(1).Hour);
+            var records = _record.GetWithInclude().Where(r => r.TimeRecord.Hour == DateTime.Now.AddHours(1).Hour && r.TimeRecord.Minute == DateTime.Now.Minute);
             foreach (var item in records)
             {
+                
+                
                 _mail.SendEmailAsync(item.Visitor.Login, "One hour untill your massage!!!", item.Visitor.Name, item.TimeRecord.ToString()).Wait();
             }
         }

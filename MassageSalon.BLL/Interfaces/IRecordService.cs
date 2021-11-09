@@ -16,5 +16,8 @@ namespace MassageSalon.BLL.Interfaces
         Record Get(Func<Record, bool> predicate);
         IEnumerable<Record> GetWithInclude();
         Task DeleteAsync(int id);
+        public IEnumerable<Record> GetRange(int skipPos = 0, int count = 3);
+        Task<int> GetCountAsync();
+        IEnumerable<Record> AdvancedSearch(string masseurName, DateTime minDate, DateTime maxDate);
     }
 }

@@ -99,7 +99,34 @@ namespace MassageSalon.WEB.Controllers
             await _mail.SendEmailAsync(visitor.Login, "Record to Massage", visitor.Name, recordModel.TimeRecord.ToString());
             return RedirectToAction("Index");
         }
+        
+        [HttpGet]
+        public IActionResult AdvancedSearch()
+        {
+            var guest = User.Identity.Name;
+            Logger.LogInformation($"Get request to records advanced searc by {guest}");
+            return View();
+        }
 
+        [HttpPost]
+        [CustomExceptionFilter]
+        public async  Task<IActionResult> AdvancedSearch(RecordAdvSearchModel searchModel)
+        {
+            var records = _mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(_recordService.AdvancedSearch(
+                searchModel.MasseurName,
+                searchModel.MinDate,
+                searchModel.MaxDate
+                ));
+            foreach (var item in records)
+            {
+                item.Masseur = _mapper.Map<Masseur, MasseurModel>(await _masseurService.GetByIdAsync(item.MasseurId));
+                item.Offer = _mapper.Map<Offer, OfferModel>(await _offerService.GetByIdAsync(item.OfferId));
+                item.Visitor = _mapper.Map<Visitor, VisitorModel>(await _visitorService.GetByIdAsync(item.VisitorId));
+            }
+            
+            Logger.LogInformation($"Successfully advanced search for records. Count - {records.Count()}");
+            return View("Index", records);
+        }
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

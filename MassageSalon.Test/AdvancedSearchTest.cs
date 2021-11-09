@@ -18,50 +18,79 @@ namespace MassageSalon.Test
 {
     public class AdvancedSearchTest
     {
-        [TestCase("massage",null, 0, ExpectedResult = 4 )]
-        [TestCase(null,"shoulder", 0, ExpectedResult = 1 )]
-        [TestCase(null, null, 43, ExpectedResult = 1)]
-        [TestCase("Foot",null, 0, ExpectedResult = 1 )]
-        public async Task<int> Search_Result(string title, string description, int price)
+        public DbContextOptions<MassageSalonContext> OptionDb;
+
+        [SetUp]
+        public void Setup()
         {
-            //Arrange
-            var search = new Offer 
-            {
-                Title = title,
-                Description = description,
-                Price = price
-            };
+            OptionDb = new DbContextOptionsBuilder<MassageSalonContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb").Options;
+            using var context = new MassageSalonContext(OptionDb);
 
-            Func<Offer, bool> predicate = (s => (
-            (search.Title == null || s.Title.Contains(search.Title)) &&
-            (search.Description == null || s.Description.Contains(search.Description) &&
-            (search.Price == 0 || s.Price.Equals(search.Price))
-            )));
+            context.RemoveRange(context.Records);
+            context.RemoveRange(context.Masseurs);
+            context.SaveChanges();
 
-            var mock = new Mock<IGenericRepository<Offer>>();
-            mock.Setup(s =>s.Find(It.IsAny<Func<Offer, bool>>())).Returns((GetOffers()).Where(predicate).ToList());
-
-            IOfferService _offerService = new OfferService(mock.Object);
-
-            //Act
-            var actual = _offerService.AdvancedSearch(search);
-
-            //Assert
-            //Assert.AreEqual(1, actual.Count());   
-            return actual.Count();
+            context.Records.AddRange(GetRecords());
+            context.Masseurs.AddRange(GetMasseurs());
+            context.SaveChanges();
         }
 
-        private IEnumerable<Offer> GetOffers()
+        [TestCase("Egor", "1/1/0001 00:00:00 AM", "1/1/0001 00:00:00 AM", ExpectedResult = 2)]
+        [TestCase("Alex", "1/1/0001 00:00:00 AM", "1/1/0001 00:00:00 AM", ExpectedResult = 3)]
+        [TestCase("Andre", "1/1/0001 00:00:00 AM", "1/1/0001 00:00:00 AM", ExpectedResult = 1)]
+        [TestCase("Anton", "1/1/0001 00:00:00 AM", "1/1/0001 00:00:00 AM", ExpectedResult = 6)]
+        public int TestMasseurName(string masseurName, DateTime minDate, DateTime maxDate)
         {
-            var offers = new List<Offer>
+            using var context = new MassageSalonContext(OptionDb);
+            var repository = new GenericRepository<Record>(context);
+            var masseurRepository = new GenericRepository<Masseur>(context);
+
+            RecordService service = new RecordService(repository, masseurRepository);
+            var actual = service.AdvancedSearch(masseurName, minDate, maxDate);
+            return actual.Count();
+
+        }
+
+        [TestCase(null, "1/1/0001 00:00:00 AM", "11/11/2021 00:00:00 AM", ExpectedResult = 1)]
+        [TestCase(null, "11/15/2021 00:00:00 AM", "11/17/2021 00:00:00 AM", ExpectedResult = 2)]
+        [TestCase("Alex", "11/16/2021 05:00:00 AM", "11/26/2021 00:00:00 AM", ExpectedResult = 2)]
+        [TestCase(null, "1/1/0001 00:00:00 AM", "1/1/0001 00:00:00 AM", ExpectedResult = 6)]
+        public int TestTimeRecord(string masseurName, DateTime minDate, DateTime maxDate)
+        {
+            using var context = new MassageSalonContext(OptionDb);
+            var repository = new GenericRepository<Record>(context);
+            var masseurRepository = new GenericRepository<Masseur>(context);
+
+            RecordService service = new RecordService(repository, masseurRepository);
+            var actual = service.AdvancedSearch(masseurName, minDate, maxDate);
+            return actual.Count();
+
+        }
+        private IEnumerable<Record> GetRecords()
+        {
+            var records = new List<Record>
             {
-                new Offer { Id = 1, Title = "Classic massage", Description = "Full body", Price = 40},
-                new Offer { Id = 2, Title = "Hot stone massage", Description = "Back and shoulder", Price = 55},
-                new Offer { Id = 3, Title = "Indian head massage", Description = "Head and face massage", Price = 43},
-                new Offer { Id = 4, Title = "Foot/reflexology massage", Description = "Foot and legs", Price = 25}
+                new Record{Id = 1, MasseurId = 1, TimeRecord = new  DateTime(2021,11,10,2,30,0) },
+                new Record{Id = 2, MasseurId = 2, TimeRecord = new  DateTime(2021,11,11,2,30,0) },
+                new Record{Id = 3, MasseurId = 1, TimeRecord = new  DateTime(2021,11,11,3,30,0) },
+                new Record{Id = 4, MasseurId = 3, TimeRecord = new  DateTime(2021,11,25,2,30,0) },
+                new Record{Id = 5, MasseurId = 3, TimeRecord = new  DateTime(2021,11,16,2,30,0) },
+                new Record{Id = 6, MasseurId = 3, TimeRecord = new  DateTime(2021,11,16,5,30,0) }
             };
 
-            return offers;
+            return records;
+        }
+        private IEnumerable<Masseur> GetMasseurs()
+        {
+            var masseurs = new List<Masseur>
+            {
+                new Masseur{Id =1, Name = "Egor", Surname = "Karas" },
+                new Masseur{Id =2, Name = "Andrey", Surname = "Galin" },
+                new Masseur{Id =3, Name = "Alex", Surname = "Karabut" }
+            };
+
+            return masseurs;
         }
     }
 }
