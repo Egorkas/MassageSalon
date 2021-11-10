@@ -8,6 +8,7 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
+using MassageSalon.WEB.Models.PageModel;
 using MassageSalon.WEB.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,7 @@ namespace MassageSalon.WEB.Controllers
             _mail = mail;
         }
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int pageSize = 5, int page = 0)
         {
             ViewData["Title"] = "Records";
             if (User.IsInRole("admin"))
@@ -111,7 +112,7 @@ namespace MassageSalon.WEB.Controllers
         [HttpPost]
         [CustomExceptionFilter]
         public async  Task<IActionResult> AdvancedSearch(RecordAdvSearchModel searchModel)
-        {
+            {
             var records = _mapper.Map<IEnumerable<Record>, IEnumerable<RecordModel>>(_recordService.AdvancedSearch(
                 searchModel.MasseurName,
                 searchModel.MinDate,

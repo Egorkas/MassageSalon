@@ -53,6 +53,7 @@ namespace MassageSalon.WEB
             services.AddScoped<IGenericRepository<Log>, GenericRepository<Log>>();
             services.AddScoped<IGenericRepository<Offer>, GenericRepository<Offer>>();
 
+
             services.AddScoped<IMasseurService, MasseurService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IVisitorService, VisitorService>();
@@ -61,7 +62,6 @@ namespace MassageSalon.WEB
             services.AddScoped<ILoggerService, LoggerService>();
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<IEmailService, EmailService>();
-
 
             services.AddHttpContextAccessor();
 
@@ -107,7 +107,9 @@ namespace MassageSalon.WEB
             app.UseAuthorization();
 
             app.UseHangfireDashboard("/dashboard");
-            jobManager.AddOrUpdate("SendOneHourBefore",() => new HangFireService(record, mail).Reccuring(), "*/30 * * * *");
+
+            app.ApplicationServices.GetService<IRecurringJobManager>()
+                .AddOrUpdate("SendOneHourBefore",() => new HangFireService(record, mail).Reccuring(), "*/30 * * * *");
 
             app.UseEndpoints(endpoints =>
             {
