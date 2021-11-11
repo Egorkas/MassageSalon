@@ -26,6 +26,8 @@ namespace MassageSalon.BLL.Services
         public async Task<Review> GetByIdAsync(int id) =>
             await _repository.GetAsync(id);
 
+        public async Task<int> GetCountAsync() => await _repository.GetCountAsync();
+
         public async Task UpdateAsync(Review review) =>
             await _repository.UpdateAsync(review);
     }

@@ -1,0 +1,46 @@
+﻿@model MassageSalon.WEB.Models.RecordAdvSearchModel
+
+<div>
+    <h2>Search Records</h2>
+    @using (Html.BeginForm("AdvancedSearch", "Record", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label asp-for="MasseurName">Enter Name of Masseur</label><br />
+            <input class="form-controll" type="text" asp-for="MasseurName" autocomplete="off"/>
+            <span asp-validation-for="MasseurName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="MinDate">Enter min date</label>
+            <input type="text" asp-for="MinDate" class="datetimefield" autocomplete="off" />
+            <span asp-validation-for="MinDate" />
+        </div>
+        <div class="form-group">
+            <label asp-for="MaxDate">Enter max date</label>
+            <input type="text" asp-for="MaxDate" class="datetimefield" autocomplete="off" />
+            <span asp-validation-for="MaxDate" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    }
+</div>
+
+
+
+
+
+    @section Scripts{
+        <script>
+            $(function () {
+                $.datetimepicker.setDateFormatter('moment');
+                $(".datetimefield").datetimepicker({
+                    format: 'MM/DD/YYYY hh:mm A',
+                    formatTime: 'h:mm A',
+                    minDate: new Date(),
+                    step: 30
+
+                });
+            });
+        </script>
+
+    }

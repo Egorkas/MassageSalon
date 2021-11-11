@@ -16,5 +16,6 @@ namespace MassageSalon.DAL.Common.Interfaces
         Task DeleteAsync(int id);    
         IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
         public Task<int> GetCountAsync();
+        public IEnumerable<TEntity> GetRange(int skipPos = 0, int count = 3);
     }
 }

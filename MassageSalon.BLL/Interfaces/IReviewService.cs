@@ -12,5 +12,6 @@ namespace MassageSalon.BLL.Interfaces
         Task<Review> GetByIdAsync(int id);
         IEnumerable<Review> GetAll();
         Task UpdateAsync(Review Review);
+        Task<int> GetCountAsync();
     }
 }

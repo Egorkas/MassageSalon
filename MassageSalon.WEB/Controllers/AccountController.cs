@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿   using AutoMapper;
 using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Models;

@@ -17,6 +17,18 @@ namespace MassageSalon.BLL.Services
         {
             _repository = repository;
         }
+
+        public IEnumerable<Offer> AdvancedSearch(Offer srchOffer)
+        {
+            Func<Offer, bool> predicate = (s => (
+            (srchOffer.Title == null || s.Title.Contains(srchOffer.Title)) &&
+            (srchOffer.Description == null || s.Description.Contains(srchOffer.Description) &&
+            (srchOffer.Price == 0 || s.Price.Equals(srchOffer.Price) ))
+            ));
+
+            return _repository.Find(predicate);
+        }
+
         public async Task CreateAsync(Offer offer) => await _repository.CreateAsync(offer);
 
         public async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
@@ -27,6 +39,8 @@ namespace MassageSalon.BLL.Services
 
         public async Task<Offer> GetByIdAsync(int id) => await _repository.GetAsync(id);
 
+        public async Task<int> GetCountAsync() => await _repository.GetCountAsync();
+        public IEnumerable<Offer> GetRange(int skipPos = 0, int count = 3) => _repository.GetRange(skipPos, count);
         public IEnumerable<Offer> Search(string search)
         {
             return _repository.Find(s =>
@@ -34,7 +48,7 @@ namespace MassageSalon.BLL.Services
                 s.Description.Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase) ||
                 s.Price.ToString().Contains(search.NormalizedSearchString(), StringComparison.OrdinalIgnoreCase));
         }
-
         public async Task UpdateAsync(Offer offer) => await _repository.UpdateAsync(offer);
+
     }
 }

@@ -7,8 +7,10 @@ using MassageSalon.BLL.Interfaces;
 using MassageSalon.DAL.Common.Entities;
 using MassageSalon.WEB.Filters;
 using MassageSalon.WEB.Models;
+using MassageSalon.WEB.Models.PageModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ReflectionIT.Mvc.Paging;
 
 namespace MassageSalon.WEB.Controllers
@@ -24,19 +26,45 @@ namespace MassageSalon.WEB.Controllers
             _mapper = mapper;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int pageSize = 3, int page = 0)
         {
-            var qry = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(await _offerService.GetAllAsync());
-            var offers = PagingList.Create(qry, 2, page);
-            return View(offers);
+            Logger.LogInformation($"Get request for page {page}");
+            var pageViewModel = new PageModel(await _offerService.GetCountAsync(), page, pageSize);
+
+            var viewModel = new ViewPageModel<OfferModel>
+            {
+                PageModel = pageViewModel,
+                Collection = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(
+                    _offerService.GetRange(page * pageSize, pageSize))
+            };
+            return View(viewModel);
         }
+
+        
+        
         [AllowAnonymous]
         [CustomExceptionFilter]
-        public IActionResult Search(string search, int page = 1)
+        [HttpPost]
+        public IActionResult Search(string search, int page = 0, int pageSize = 3)
         {
-            var qry = _mapper.Map<IEnumerable<OfferModel>>(_offerService.Search(search));
-            var offers = PagingList.Create(qry, 2, page);
-            return View("Index", offers );
+            Logger.LogInformation($"Get request for page {page}");
+            var pageViewModel = new PageModel(_offerService.Search(search).Count(), page, pageSize);
+
+            var viewModel = new ViewPageModel<OfferModel>
+            {
+                PageModel = pageViewModel,
+                Collection = _mapper.Map<IEnumerable<Offer>, IEnumerable<OfferModel>>(
+                    _offerService.Search(search))
+            };
+            return View("Index",viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            await _offerService.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

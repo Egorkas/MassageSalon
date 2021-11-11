@@ -10,6 +10,7 @@
     <title>Responses</title>
 </head>
 <body>
+    <div><a asp-controller="Record" asp-action="AdvancedSearch" class="btn btn-primary"><i class="fas fa-angry">Search</i></a></div>
     <div class="panel-body">
         <h2>Here is a list of visitors' records!</h2>
         <table class="table table-sm table-striped table-bordered">
@@ -21,10 +22,11 @@
                     <th>Offer</th>
                     <th>Price</th>
                     <th>Time</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ( var r in Model)
+                @foreach ( var r in Model.OrderByDescending(s => s.TimeRecord))
                 {
                     <tr>
                         <td>@r.Visitor.Name</td>
@@ -33,6 +35,12 @@
                         <td>@r.Offer.Title</td>
                         <td>@r.Offer.Price</td>
                         <td>@r.TimeRecord</td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Record", new { Id = r.Id }, FormMethod.Post))
+                            {
+                                <button type="submit"><i class="fas fa-trash"></i></button>
+                            }
+                         </td>
                     </tr>
                 }
             </tbody>

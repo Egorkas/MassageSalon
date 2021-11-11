@@ -35,33 +35,54 @@ namespace MassageSalon.DAL.EF.Contexts
                 adminVisitor
             });
 
-            //add masseurs
+            #region AddMasseurs
             builder.Entity<Masseur>().HasData(new Masseur
             {
                 Id = 1,
                 Name = "Makar",
                 Surname = "Sham",
-                Description = "The best masseur",
-                TitleImagePath = "user_profile.jpg"
+                Description = "Masseur with 7 years of experience. Masseur of the 2020 year. Winner of the Masseur's championship 2018, 2020.",
+                TitleImagePath = "Makar.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
             {
                 Id = 2,
-                Name = "Bega",
-                Surname = "Dobrov",
-                Description = "Good masseur",
-                TitleImagePath = "user_profile.jpg"
+                Name = "Wendy",
+                Surname = "Kavanagh",
+                Description = "Masseur with 11 years of experience. He successfully ran the London College of Massage for many years. ",
+                TitleImagePath = "Wendy.jpg"
             });
 
             builder.Entity<Masseur>().HasData(new Masseur
             {
                 Id = 3,
-                Name = "Egor",
+                Name = "Alex",
                 Surname = "Karas",
-                Description = "The best masseur",
-                TitleImagePath = "user_profile.jpg"
+                Description = "Masseur with 14 years of experience. Has Massage Assosiation Sertificate.",
+                TitleImagePath = "Alex.jpg"
             });
+            builder.Entity<Masseur>().HasData(new Masseur
+            {
+                Id = 4,
+                Name = " Julien",
+                Surname = "Elis",
+                Description = "Masseur with 23 years of experience. President and organizer of the European Massage Championship with the New Massage Association which will have its second edition in 2021." +
+                "As an ex wellness therapist, and holding to the deep belief that massage presents a true benefit for the world," +
+                " he dedicated the second part of of his massage career to the advancement of all massage techniques and especially," +
+                " to make sure that the talent of massage therapists be recognized within the wellness community and more broadly with the general public. ",
+                TitleImagePath = "Julias.jpg"
+            });
+            builder.Entity<Masseur>().HasData(new Masseur
+            {
+                Id = 5,
+                Name = "Chaz",
+                Surname = "Armstrong",
+                Description = "U.S. massage therapist won the gold medal in chair massage " +
+                "and a silver medal in overall best massage at the World Championship in Massage 2021 competition in Copenhagen, Denmark.",
+                TitleImagePath = "Chaz.jpg"
+            });
+            #endregion
 
             //add offers
             builder.Entity<Offer>().HasData(new Offer
